@@ -59,6 +59,10 @@ export const AuthProvider: FC<
                 console.log("response.data", response.data);
             } catch (error) {
                 console.error("Error fetching user:", error);
+                setCurrentUser(null);
+                setIsLogged(false);
+            } finally {
+                console.log("finally");
             }
         };
 
