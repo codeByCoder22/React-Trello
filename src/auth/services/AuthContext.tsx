@@ -6,11 +6,13 @@ import React, {
     FC,
     PropsWithChildren,
 } from "react";
-import { getCurrentUser } from "./authService";
+// import { getCurrentUser } from "./authService";
+import { CurrentUserInterface } from "../types/currentUser.interface";
+import axiosInstance from "../../utils/axiosInstance";
 
 interface AuthContextType {
-    currentUser: string | null;
-    setCurrentUser: (user: string | null) => void;
+    currentUser: CurrentUserInterface | null;
+    setCurrentUser: (user: CurrentUserInterface | null) => void;
     isLogged: boolean;
     setIsLogged: (value: boolean) => void;
 }
@@ -28,14 +30,33 @@ export const useAuthContext = (): AuthContextType => {
 export const AuthProvider: FC<
     PropsWithChildren<React.HTMLAttributes<HTMLElement>>
 > = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<string | null>(null);
+    const [currentUser, setCurrentUser] = useState<CurrentUserInterface | null>(
+        null
+    );
     const [isLogged, setIsLogged] = useState<boolean>(false);
-
+    /*
     useEffect(() => {
         const fetchUser = async (): Promise<void> => {
             try {
                 const response = await getCurrentUser();
                 setCurrentUser(response.data);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+*/
+    useEffect(() => {
+        const fetchUser = async (): Promise<void> => {
+            try {
+                const response = await axiosInstance.get<CurrentUserInterface>(
+                    "/api/user"
+                );
+                setCurrentUser(response.data);
+                setIsLogged(true);
+                console.log("response.data", response.data);
             } catch (error) {
                 console.error("Error fetching user:", error);
             }
