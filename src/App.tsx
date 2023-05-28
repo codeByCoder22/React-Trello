@@ -2,6 +2,8 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { useAuthContext } from "./auth/services/AuthContext";
+import { Routes, Route } from "react-router-dom";
+import Register from "./auth/components/Register";
 
 function App() {
     const { currentUser, setCurrentUser, isLogged, setIsLogged } =
@@ -22,8 +24,13 @@ function App() {
                     {/* <button onClick={() => setIsLogged(true)}>
                         Set Logged
                     </button> */}
+                    <hr />
+                    <Register />
                 </div>
             </header>
+            {/* <Routes>
+                <Route path="/register" element={<Register />} />
+            </Routes> */}
         </div>
     );
 }
