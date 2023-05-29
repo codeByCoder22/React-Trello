@@ -5,12 +5,6 @@ import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import axiosInstance from "../../utils/axiosInstance";
 import { useAuthContext } from "../services/AuthContext";
 
-// export interface RegisterRequestInterface {
-//     email: string;
-//     username: string;
-//     password: string;
-// }
-
 interface CurrentUserInterface {
     id: string;
     token: string;
@@ -28,8 +22,8 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    // const { currentUser, setCurrentUser, isLogged, setIsLogged } =
-    // useAuthContext();
+    const { currentUser, setCurrentUser, isLogged, setIsLogged } =
+        useAuthContext();
 
     const register = async (registerRequest: RegisterRequestInterface) => {
         try {
@@ -37,13 +31,18 @@ const Register: React.FC = () => {
                 "/api/users",
                 registerRequest
             );
+            console.log(response.data);
             const token = response.data.token;
             const currentUser = response.data;
 
             setToken(token);
             setCurrentUser(currentUser);
+            setIsLogged(true);
+            setError("");
             // navigateTo("/");
         } catch (error: any) {
+            setCurrentUser(null);
+            setIsLogged(false);
             console.log(error);
             setError(error.response.data.error);
             // setError("Registration failed. Please try again.");
@@ -54,10 +53,10 @@ const Register: React.FC = () => {
         localStorage.setItem("token", token);
     };
 
-    const setCurrentUser = (currentUser: CurrentUserInterface): void => {
-        // Set the current user in the context or state
-        // ...
-    };
+    // const setCurrentUser = (currentUser: CurrentUserInterface): void => {
+    //     // Set the current user in the context or state
+    //     // ...
+    // };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
