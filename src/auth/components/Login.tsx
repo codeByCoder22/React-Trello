@@ -2,7 +2,8 @@ import React, { useState } from "react";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { RegisterRequestInterface } from "../types/registerRequest.interface";
+// import { RegisterRequestInterface } from "../types/registerRequest.interface";
+import { LoginRequestInterface } from "../types/loginRequest.interface";
 import axiosInstance from "../../utils/axiosInstance";
 import { useAuthContext } from "../services/AuthContext";
 
@@ -13,22 +14,21 @@ interface CurrentUserInterface {
     email: string;
 }
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
     const { currentUser, setCurrentUser, isLogged, setIsLogged } =
         useAuthContext();
 
-    const register = async (registerRequest: RegisterRequestInterface) => {
+    const Login = async (loginRequest: LoginRequestInterface) => {
         try {
             const response = await axiosInstance.post<CurrentUserInterface>(
-                "/api/users",
-                registerRequest
+                "/api/users/login",
+                loginRequest
             );
             console.log(response.data);
             const token = response.data.token;
@@ -55,18 +55,17 @@ const Register: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const registerRequest: RegisterRequestInterface = {
+        const loginRequest: LoginRequestInterface = {
             email,
-            username,
             password,
         };
 
-        await register(registerRequest);
+        await Login(loginRequest);
     };
 
     return (
         <div>
-            <h2>Register</h2>
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email:</label>
@@ -75,15 +74,6 @@ const Register: React.FC = () => {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
@@ -103,4 +93,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default Login;

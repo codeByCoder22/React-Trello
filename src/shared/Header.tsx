@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import {CartWidget} from "./CartWidget"
 import { useAuthContext } from "../auth/services/AuthContext";
 
 export const Header = () => {
@@ -22,11 +21,13 @@ export const Header = () => {
                 <div className="">
                     <Link to="/">Home</Link>
                     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Link to="/board">Board</Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
                     {!isLogged && <Link to="/register">Register</Link>}
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    {isLogged && (
-                        <span>current user: {currentUser?.username}</span>
-                    )}
+                    {!isLogged && <Link to="/login">Login</Link>}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {isLogged && <span>{currentUser?.username}</span>}
                     &nbsp;&nbsp;&nbsp;
                     {isLogged && <button onClick={handleLogout}>Logout</button>}
                 </div>
