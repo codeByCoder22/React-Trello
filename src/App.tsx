@@ -8,8 +8,6 @@ import { Header } from "./shared/Header";
 import { Home } from "./Home/Home";
 
 function App() {
-    const { currentUser, setCurrentUser, isLogged, setIsLogged } =
-        useAuthContext();
     return (
         <div className="App">
             <Header />
