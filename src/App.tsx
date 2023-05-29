@@ -4,8 +4,10 @@ import "./App.css";
 import { useAuthContext } from "./auth/services/AuthContext";
 import { Routes, Route } from "react-router-dom";
 import Register from "./auth/components/Register";
+import Login from "./auth/components/Login";
 import { Header } from "./shared/Header";
 import { Home } from "./Home/Home";
+import { Board } from "./board/Board";
 
 function App() {
     return (
@@ -14,7 +16,9 @@ function App() {
 
             <Routes>
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/board" element={<Board />} />
             </Routes>
         </div>
     );
