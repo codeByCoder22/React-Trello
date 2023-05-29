@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import axiosInstance from "../../utils/axiosInstance";
@@ -17,6 +18,8 @@ interface CurrentUserInterface {
 // });
 
 const Register: React.FC = () => {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -39,7 +42,7 @@ const Register: React.FC = () => {
             setCurrentUser(currentUser);
             setIsLogged(true);
             setError("");
-            // navigateTo("/");
+            navigate("/");
         } catch (error: any) {
             setCurrentUser(null);
             setIsLogged(false);
