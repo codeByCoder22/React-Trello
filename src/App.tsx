@@ -8,6 +8,8 @@ import Login from "./auth/components/Login";
 import { Header } from "./shared/Header";
 import { Home } from "./Home/Home";
 import { Board } from "./board/Board";
+import { redirect } from "react-router-dom";
+import { ProtectedRoute } from "./auth/services/ProtectedRoute";
 
 function App() {
     return (
@@ -18,7 +20,14 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Home />} />
-                <Route path="/board" element={<Board />} />
+                <Route
+                    path="/board"
+                    element={
+                        <ProtectedRoute>
+                            <Board />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
         </div>
     );
