@@ -20,9 +20,9 @@ export const Header = () => {
             <header>
                 <div className="">
                     <Link to="/">Home</Link>
-                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <Link to="/board">Board</Link>
-                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     {!isLogged && <Link to="/register">Register</Link>}
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     {!isLogged && <Link to="/login">Login</Link>}

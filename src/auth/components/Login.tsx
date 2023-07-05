@@ -38,12 +38,15 @@ const Login: React.FC = () => {
             setCurrentUser(currentUser);
             setIsLogged(true);
             setError("");
-            navigate("/");
+            navigate("/board");
         } catch (error: any) {
             setCurrentUser(null);
             setIsLogged(false);
-            console.log(error);
-            setError(error.response.data.error);
+            console.log(error.response);
+            setError(
+                error.response?.data || "An error occurred. Please try again."
+            );
+
             // setError("Registration failed. Please try again.");
         }
     };
@@ -87,7 +90,14 @@ const Login: React.FC = () => {
                 </div>
 
                 <button type="submit">Register</button>
-                {error && <p>{error}</p>}
+                {/* {error && <p>{error}</p>} */}
+                {error && (
+                    <ul>
+                        {Object.values(error).map((err) => (
+                            <li key={err}>{err}</li>
+                        ))}
+                    </ul>
+                )}
             </form>
         </div>
     );
