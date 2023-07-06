@@ -4,7 +4,7 @@ import Register from "./auth/components/Register";
 import Login from "./auth/components/Login";
 import { MainNavigation } from "./auth/components/MainNavigation";
 import { Home } from "./Home/Home";
-import { Board } from "./board/Board";
+import { Boards } from "./boards/Boards";
 import { ProtectedRoute } from "./auth/services/ProtectedRoute";
 
 function App() {
@@ -18,10 +18,10 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<Home />} />
                     <Route
-                        path="/board"
+                        path="/boards"
                         element={
                             <ProtectedRoute>
-                                <Board />
+                                <Boards />
                             </ProtectedRoute>
                         }
                     />

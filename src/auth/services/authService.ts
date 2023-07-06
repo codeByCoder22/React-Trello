@@ -12,7 +12,7 @@ export const getCurrentUser = async (): Promise<CurrentUserInterface> => {
 export const register = async (
     registerRequest: RegisterRequestInterface
 ): Promise<CurrentUserInterface> => {
-    return axiosInstance.post("/api/users", registerRequest).then((res) => {
+    return axiosInstance.post("/users", registerRequest).then((res) => {
         return res.data;
     });
 };
@@ -20,7 +20,7 @@ export const register = async (
 export const login = async (
     loginRequest: LoginRequestInterface
 ): Promise<CurrentUserInterface> => {
-    return axiosInstance.post("/api/users/login", loginRequest).then((res) => {
+    return axiosInstance.post("/users/login", loginRequest).then((res) => {
         return res.data;
     });
 };

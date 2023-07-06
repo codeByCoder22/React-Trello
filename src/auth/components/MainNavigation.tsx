@@ -35,12 +35,12 @@ export const MainNavigation = () => {
                         </li>
                         <li>
                             <NavLink
-                                to="/board"
+                                to="/boards"
                                 className={({ isActive }) =>
                                     isActive ? classes.active : undefined
                                 }
                             >
-                                Board
+                                Boards
                             </NavLink>
                         </li>
                         {!isLogged && (
