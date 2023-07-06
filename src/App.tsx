@@ -5,6 +5,7 @@ import Login from "./auth/components/Login";
 import { MainNavigation } from "./auth/components/MainNavigation";
 import { Home } from "./Home/Home";
 import { Boards } from "./boards/Boards";
+import { Board } from "./board/Board";
 import { ProtectedRoute } from "./auth/services/ProtectedRoute";
 
 function App() {
@@ -22,6 +23,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <Boards />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/boards/:boardId"
+                        element={
+                            <ProtectedRoute>
+                                <Board />
                             </ProtectedRoute>
                         }
                     />
