@@ -7,7 +7,7 @@ const URL =
 export const socket = io("http://localhost:4001", {
     autoConnect: false,
     auth: {
-        token: "Bearer " + localStorage.getItem("token"),
+        token: localStorage.getItem("token"),
         // token: `Bearer ${localStorage.getItem("token")}`,
     },
 });
