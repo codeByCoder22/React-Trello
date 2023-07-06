@@ -2,11 +2,26 @@ import React from "react";
 import { useEffect, useState } from "react";
 import * as boardsService from "../shared/services/boards.service";
 import { BoardInterface } from "../shared/types/board.interface";
+import InlineFormComponent from "../shared/components/InlineFormComponent";
 
 export const Boards = () => {
     const [boards, setBoards] = useState<BoardInterface[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const createBoard = (title: string) => {
+        setIsLoading(true);
+        boardsService
+            .createBoard(title)
+            .then((board) => {
+                setBoards([...boards, board]);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                setError(error.response?.data?.error);
+            });
+    };
 
     useEffect(() => {
         boardsService
@@ -23,7 +38,11 @@ export const Boards = () => {
 
     return (
         <>
-            <h1>Boards</h1>
+            <h1>My Boards</h1>
+            <InlineFormComponent
+                defaultText="Create new board"
+                handleSubmit={createBoard}
+            />
             <ul>
                 {boards.map((board) => (
                     <li key={board.id}>{board.title}</li>
