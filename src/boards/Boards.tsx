@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as boardsService from "../shared/services/boards.service";
 import { BoardInterface } from "../shared/types/board.interface";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
+import { Link } from "react-router-dom";
 
 export const Boards = () => {
     const [boards, setBoards] = useState<BoardInterface[]>([]);
@@ -45,7 +46,15 @@ export const Boards = () => {
             />
             <ul>
                 {boards.map((board) => (
-                    <li key={board.id}>{board.title}</li>
+                    <Link
+                        to={`/boards/${board.id}`}
+                        key={board.id}
+                        className="board-tile"
+                    >
+                        <div className="board-tile-details-name">
+                            {board.title}
+                        </div>
+                    </Link>
                 ))}
             </ul>
             {isLoading && <p>Loading...</p>}
