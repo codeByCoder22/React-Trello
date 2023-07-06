@@ -6,7 +6,7 @@ import { LoginRequestInterface } from "../types/loginRequest.interface";
 import socketService from "../../shared/services/socket.service";
 
 export const getCurrentUser = async (): Promise<CurrentUserInterface> => {
-    return axiosInstance.get("/api/user").then((res) => res.data);
+    return axiosInstance.get("/user").then((res) => res.data);
 };
 
 export const register = async (
