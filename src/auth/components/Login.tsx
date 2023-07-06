@@ -1,18 +1,9 @@
 import React, { useState } from "react";
-// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { LoginRequestInterface } from "../types/loginRequest.interface";
-import axiosInstance from "../../utils/axiosInstance";
 import { useAuthContext } from "../services/AuthContext";
-
-interface CurrentUserInterface {
-    id: string;
-    token: string;
-    username: string;
-    email: string;
-}
+import * as authService from "../services/authService";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -24,37 +15,6 @@ const Login: React.FC = () => {
     const { currentUser, setCurrentUser, isLogged, setIsLogged } =
         useAuthContext();
 
-    const Login = async (loginRequest: LoginRequestInterface) => {
-        try {
-            const response = await axiosInstance.post<CurrentUserInterface>(
-                "/api/users/login",
-                loginRequest
-            );
-            console.log(response.data);
-            const token = response.data.token;
-            const currentUser = response.data;
-
-            setToken(token);
-            setCurrentUser(currentUser);
-            setIsLogged(true);
-            setError("");
-            navigate("/board");
-        } catch (error: any) {
-            setCurrentUser(null);
-            setIsLogged(false);
-            console.log(error.response);
-            setError(
-                error.response?.data || "An error occurred. Please try again."
-            );
-
-            // setError("Registration failed. Please try again.");
-        }
-    };
-
-    const setToken = (token: string): void => {
-        localStorage.setItem("token", token);
-    };
-
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -63,7 +23,30 @@ const Login: React.FC = () => {
             password,
         };
 
-        await Login(loginRequest);
+        // await Login(loginRequest);
+        authService
+            .login(loginRequest)
+            .then((currentUser) => {
+                authService.setToken(currentUser);
+                setCurrentUser(currentUser);
+                setIsLogged(true);
+                setError("");
+                navigate("/board");
+            })
+            .catch((error) => {
+                setCurrentUser(null);
+                setIsLogged(false);
+                console.log(error.response);
+                setError(
+                    // error.response?.data?.error ||
+                    //     "An error occurred. Please try again."
+                    error.response?.data ||
+                        "An error occurred. Please try again."
+                );
+            })
+            .finally(() => {
+                console.log("finally");
+            });
     };
 
     return (
@@ -89,7 +72,7 @@ const Login: React.FC = () => {
                     />
                 </div>
 
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
                 {/* {error && <p>{error}</p>} */}
                 {error && (
                     <ul>
