@@ -45,7 +45,7 @@ export const AuthProvider: FC<
                 console.log("currentUser", currentUser);
                 setCurrentUser(currentUser);
                 setIsLogged(true);
-                navigate("/board");
+                navigate("/boards");
                 socketService.setupSocketConnection(currentUser);
                 console.log("response.data", currentUser);
             })

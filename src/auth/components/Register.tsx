@@ -33,7 +33,7 @@ const Register: React.FC = () => {
                 setCurrentUser(currentUser);
                 setIsLogged(true);
                 setError("");
-                navigate("/board");
+                navigate("/boards");
                 socketService.setupSocketConnection(currentUser);
             })
             .catch((error) => {
