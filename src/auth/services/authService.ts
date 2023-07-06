@@ -3,6 +3,7 @@ import { CurrentUserInterface } from "../types/currentUser.interface";
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { LoginRequestInterface } from "../types/loginRequest.interface";
 // import { useAuthContext } from "../services/authContext";
+import socketService from "../../shared/services/socket.service";
 
 export const getCurrentUser = async (): Promise<CurrentUserInterface> => {
     return axiosInstance.get("/api/user").then((res) => res.data);
@@ -25,9 +26,10 @@ export const login = async (
 };
 
 export const setToken = (currentUser: CurrentUserInterface): void => {
-    localStorage.setItem("token", currentUser.token);
+    window.localStorage.setItem("token", currentUser.token);
 };
 
 export const logout = (): void => {
-    localStorage.removeItem("token");
+    window.localStorage.removeItem("token");
+    socketService.disconnect();
 };

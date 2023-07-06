@@ -10,6 +10,7 @@ import { CurrentUserInterface } from "../types/currentUser.interface";
 import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import * as authService from "./authService";
+import socketService from "../../shared/services/socket.service";
 
 interface AuthContextType {
     currentUser: CurrentUserInterface | null;
@@ -45,6 +46,7 @@ export const AuthProvider: FC<
                 setCurrentUser(currentUser);
                 setIsLogged(true);
                 navigate("/board");
+                socketService.setupSocketConnection(currentUser);
                 console.log("response.data", currentUser);
             })
             .catch((error) => {
@@ -55,6 +57,9 @@ export const AuthProvider: FC<
             .finally(() => {
                 console.log("finally");
             });
+        return () => {
+            socketService.disconnect();
+        };
     }, []);
 
     const authContextValue: AuthContextType = {

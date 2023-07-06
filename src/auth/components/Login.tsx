@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginRequestInterface } from "../types/loginRequest.interface";
 import { useAuthContext } from "../services/AuthContext";
 import * as authService from "../services/authService";
+import socketService from "../../shared/services/socket.service";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -32,6 +33,7 @@ const Login: React.FC = () => {
                 setIsLogged(true);
                 setError("");
                 navigate("/board");
+                socketService.setupSocketConnection(currentUser);
             })
             .catch((error) => {
                 setCurrentUser(null);
