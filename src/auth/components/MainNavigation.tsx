@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../services/AuthContext";
 import classes from "./MainNavigation.module.css";
+import * as authService from "../services/authService";
 
 export const MainNavigation = () => {
     const navigate = useNavigate();
@@ -12,8 +13,8 @@ export const MainNavigation = () => {
     const handleLogout = () => {
         setCurrentUser(null);
         setIsLogged(false);
-        window.localStorage.removeItem("token");
         navigate("/register");
+        authService.logout();
     };
 
     return (

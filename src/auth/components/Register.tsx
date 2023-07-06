@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { useAuthContext } from "../services/AuthContext";
 import * as authService from "../services/authService";
+import socketService from "../../shared/services/socket.service";
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Register: React.FC = () => {
                 setIsLogged(true);
                 setError("");
                 navigate("/board");
+                socketService.setupSocketConnection(currentUser);
             })
             .catch((error) => {
                 setCurrentUser(null);

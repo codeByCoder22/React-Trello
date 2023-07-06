@@ -5,13 +5,13 @@ class SocketService {
     private socket: Socket | undefined;
     private static instance: SocketService;
 
-    // private constructor() {
-    //     this.initializeSocket();
-    // }
+    private constructor() {
+        this.initializeSocket();
+    }
 
-    // private initializeSocket(): void {
-    //     this.socket = io("http://localhost:4001");
-    // }
+    private initializeSocket(): void {
+        this.socket = io("http://localhost:4001");
+    }
 
     public static getInstance(): SocketService {
         if (!SocketService.instance) {
