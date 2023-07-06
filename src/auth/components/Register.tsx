@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
-import axiosInstance from "../../utils/axiosInstance";
 import { useAuthContext } from "../services/AuthContext";
-
-interface CurrentUserInterface {
-    id: string;
-    token: string;
-    username: string;
-    email: string;
-}
+import * as authService from "../services/authService";
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -24,40 +16,6 @@ const Register: React.FC = () => {
     const { currentUser, setCurrentUser, isLogged, setIsLogged } =
         useAuthContext();
 
-    const register = async (registerRequest: RegisterRequestInterface) => {
-        try {
-            const response = await axiosInstance.post<CurrentUserInterface>(
-                "/api/users",
-                registerRequest
-            );
-            console.log(response.data);
-            const token = response.data.token;
-            const currentUser = response.data;
-
-            setToken(token);
-            setCurrentUser(currentUser);
-            setIsLogged(true);
-            setError("");
-            // navigate("/");
-            navigate("/board");
-        } catch (error: any) {
-            setCurrentUser(null);
-            setIsLogged(false);
-            console.log(error.response);
-            setError(
-                // error.response?.data?.error ||
-                //     "An error occurred. Please try again."
-                error.response?.data || "An error occurred. Please try again."
-            );
-
-            // setError("Registration failed. Please try again.");
-        }
-    };
-
-    const setToken = (token: string): void => {
-        localStorage.setItem("token", token);
-    };
-
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -67,7 +25,29 @@ const Register: React.FC = () => {
             password,
         };
 
-        await register(registerRequest);
+        authService
+            .register(registerRequest)
+            .then((currentUser) => {
+                authService.setToken(currentUser);
+                setCurrentUser(currentUser);
+                setIsLogged(true);
+                setError("");
+                navigate("/board");
+            })
+            .catch((error) => {
+                setCurrentUser(null);
+                setIsLogged(false);
+                console.log(error.response);
+                setError(
+                    // error.response?.data?.error ||
+                    //     "An error occurred. Please try again."
+                    error.response?.data ||
+                        "An error occurred. Please try again."
+                );
+            })
+            .finally(() => {
+                console.log("finally");
+            });
     };
 
     return (
