@@ -1,63 +1,36 @@
 import { io, Socket } from "socket.io-client";
 import { CurrentUserInterface } from "../../auth/types/currentUser.interface";
 
-class SocketService {
-    private socket: Socket | undefined;
-    private static instance: SocketService;
+type listenFuncType = (...args: any[]) => void;
 
-    private constructor() {
-        this.initializeSocket();
-    }
+export const socket = io("http://localhost:4001", {
+    autoConnect: false,
+    auth: {
+        token: window.localStorage.getItem("token"),
+        // token: currentUser.token,
+    },
+});
 
-    private initializeSocket(): void {
-        this.socket = io("http://localhost:4001");
-    }
+export const setupSocketConnection = (currentUser: CurrentUserInterface) => {
+    socket.connect();
+};
 
-    public static getInstance(): SocketService {
-        if (!SocketService.instance) {
-            SocketService.instance = new SocketService();
-        }
-        return SocketService.instance;
-    }
+export const disconnect = () => {
+    socket.disconnect();
+};
 
-    setupSocketConnection(currentUser: CurrentUserInterface): void {
-        // if (this.socket) {
-        //     this.socket.disconnect();
-        // }
+export const emit = (eventName: string, message: any) => {
+    socket.emit(eventName, message);
+};
 
-        this.socket = io("http://localhost:4001", {
-            auth: {
-                token: currentUser.token,
-            },
-        });
-    }
+// export const listen = (eventName: string, callback: (data: any) => void) => {
+//     socket.on(eventName, callback);
+// };
 
-    disconnect(): void {
-        if (!this.socket) {
-            throw new Error("Socket connection is not established");
-        }
-        this.socket.disconnect();
-    }
+export const listen = (eventName: string, callback: listenFuncType) => {
+    socket.on(eventName, callback);
+};
 
-    emit(eventName: string, message: any): void {
-        if (!this.socket) {
-            throw new Error("Socket connection is not established");
-        }
-        this.socket.emit(eventName, message);
-    }
-
-    listen(eventName: string, callback: (data: any) => void): void {
-        const socket = this.socket;
-        if (!socket) {
-            throw new Error("Socket connection is not established");
-        }
-
-        socket.on(eventName, (data) => {
-            callback(data);
-        });
-    }
-}
-
-const socketService = SocketService.getInstance();
-
-export default socketService;
+export const socketOff = (eventName: string, callback: listenFuncType) => {
+    socket.off(eventName, callback);
+};

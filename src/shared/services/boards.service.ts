@@ -1,5 +1,7 @@
 import { BoardInterface } from "../types/board.interface";
 import axiosInstance from "../../utils/axiosInstance";
+import * as socketService from "./socket.service";
+import { SocketEventsEnum } from "../types/socketEvents.enum";
 
 export const getBoards = async (): Promise<BoardInterface[]> => {
     return axiosInstance
@@ -31,4 +33,11 @@ export const createBoard = async (title: string): Promise<BoardInterface> => {
             // Handle the error here
             throw new Error("Error creating board: " + error.message);
         });
+};
+
+export const updateBoard = async (
+    boardId: string | undefined,
+    fields: { title: string }
+) => {
+    socketService.emit(SocketEventsEnum.boardsUpdate, { boardId, fields });
 };
