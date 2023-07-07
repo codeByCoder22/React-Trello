@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface InlineFormProps {
     title?: string;
@@ -21,6 +21,13 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [formValue, setFormValue] = useState("");
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        if (isEditing && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isEditing]);
 
     const activeEditing = () => {
         setFormValue(title);
@@ -34,6 +41,12 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
         }
         setIsEditing(false);
         setFormValue("");
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            onSubmit(event);
+        }
     };
 
     return (
@@ -57,6 +70,8 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                             }
                             className="input-form-input"
                             placeholder={inputPlaceholder}
+                            onKeyDown={handleKeyDown}
+                            ref={inputRef}
                         />
                     )}
                     {inputType === "textarea" && (
@@ -66,6 +81,8 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                                 setFormValue(event.target.value)
                             }
                             className="input-form-input"
+                            onKeyDown={handleKeyDown}
+                            ref={inputRef}
                         ></textarea>
                     )}
                     {hasButton && (
