@@ -31,3 +31,9 @@ Type 'HTMLInputElement' is missing the following properties from type 'HTMLTextA
     86 |                         ></textarea>
     87 |                     )}
     88 |                     {hasButton && (
+
+/**\*\*\*\***\***\*\*\*\*** \*/
+npm run build
+serve -s build
+
+npm install @reduxjs/toolkit
