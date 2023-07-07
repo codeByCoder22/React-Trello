@@ -3,7 +3,7 @@ import { CurrentUserInterface } from "../types/currentUser.interface";
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { LoginRequestInterface } from "../types/loginRequest.interface";
 // import { useAuthContext } from "../services/authContext";
-import socketService from "../../shared/services/socket.service";
+import * as socketService from "../../shared/services/socket.service";
 
 export const getCurrentUser = async (): Promise<CurrentUserInterface> => {
     return axiosInstance.get("/user").then((res) => res.data);
