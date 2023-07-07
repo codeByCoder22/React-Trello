@@ -23,9 +23,8 @@ export const Board = () => {
 
     const [test, setTest] = useState<string>("");
 
-    const boardsUpdateSuccess = (boardName: string) => {
-        console.log("boardsUpdateSuccess", boardName);
-        setTest("boardName");
+    const boardsUpdateSuccess = (board: BoardInterface) => {
+        dispatch(setBoard(board));
     };
 
     function fetchData(): void {
@@ -56,7 +55,7 @@ export const Board = () => {
         socketService.listen(
             // SocketEventsEnum.boardsUpdateSuccess,
             "boards:updateSuccess",
-            console.log
+            boardsUpdateSuccess
         );
         socketService.listen(
             SocketEventsEnum.boardsUpdateFailure,
