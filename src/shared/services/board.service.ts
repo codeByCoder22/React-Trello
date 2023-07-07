@@ -1,7 +1,7 @@
 import { BoardInterface } from "../types/board.interface";
 import axiosInstance from "../../utils/axiosInstance";
 import socketService from "./socket.service";
-import { setBoard, setColumn } from "../../boardSlice";
+import { setBoard, setColumns } from "../../boardSlice";
 import { SocketEventsEnum } from "../types/socketEvents.enum";
 // import { useSelector, useDispatch } from "react-redux";
 

@@ -5,12 +5,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface BoardState {
     board: BoardInterface | null;
-    column: ColumnInterface | null;
+    columns: ColumnInterface[] | null;
 }
 
 const initialState: BoardState = {
     board: null,
-    column: null,
+    columns: null,
 };
 
 export const boardSlice = createSlice({
@@ -20,17 +20,20 @@ export const boardSlice = createSlice({
         setBoard: (state, action: PayloadAction<BoardInterface | null>) => {
             state.board = action.payload;
         },
-        setColumn: (state, action: PayloadAction<ColumnInterface | null>) => {
-            state.column = action.payload;
+        setColumns: (
+            state,
+            action: PayloadAction<ColumnInterface[] | null>
+        ) => {
+            state.columns = action.payload;
         },
     },
 });
 
 export const { setBoard } = boardSlice.actions;
-export const { setColumn } = boardSlice.actions;
+export const { setColumns } = boardSlice.actions;
 
 export default boardSlice.reducer;
 
 export const selectBoard = (state: { board: BoardState }) => state.board.board;
-export const selectColumn = (state: { board: BoardState }) =>
-    state.board.column;
+export const selectColumns = (state: { board: BoardState }) =>
+    state.board.columns;
