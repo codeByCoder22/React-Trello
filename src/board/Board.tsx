@@ -56,7 +56,13 @@ export const Board = () => {
         socketService.listen(
             // SocketEventsEnum.boardsUpdateSuccess,
             "boards:updateSuccess",
-            boardsUpdateSuccess
+            console.log
+        );
+        socketService.listen(
+            SocketEventsEnum.boardsUpdateFailure,
+            (error: string) => {
+                console.error("boardsUpdateFailure", error);
+            }
         );
         return () => {
             // socketService.emit(SocketEventsEnum.boardsLeave, boardId);
