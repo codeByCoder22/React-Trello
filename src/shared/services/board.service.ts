@@ -7,7 +7,7 @@ import { SocketEventsEnum } from "../types/socketEvents.enum";
 
 export const leaveBoard = (boardId: string | undefined) => {
     console.log("leaveBoard: boardId: ", boardId);
-    socketService.emit(SocketEventsEnum.boardsLeave, boardId);
+    socketService.emit(SocketEventsEnum.boardsLeave, { boardId });
     setBoard(null);
 };
 

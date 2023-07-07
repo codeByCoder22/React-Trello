@@ -51,7 +51,7 @@ export const Board = () => {
     }
 
     useEffect(() => {
-        socketService.emit(SocketEventsEnum.boardsJoin, boardId);
+        socketService.emit(SocketEventsEnum.boardsJoin, { boardId });
         fetchData();
         socketService.listen(
             // SocketEventsEnum.boardsUpdateSuccess,
@@ -65,8 +65,8 @@ export const Board = () => {
             }
         );
         return () => {
-            // socketService.emit(SocketEventsEnum.boardsLeave, boardId);
-            console.log("leaving board");
+            console.log("leaving__board");
+            console.log("board_id", boardId);
             boardService.leaveBoard(boardId);
             dispatch(setBoard(null));
             socketService.socketOff(
@@ -74,7 +74,7 @@ export const Board = () => {
                 boardsUpdateSuccess
             );
         };
-    }, [boardId]);
+    }, []);
 
     return (
         <>
