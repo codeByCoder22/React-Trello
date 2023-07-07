@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { CurrentUserInterface } from "../../auth/types/currentUser.interface";
 
 type listenFuncType = (data: any) => void;
@@ -28,9 +28,7 @@ export const emit = (eventName: string, message: any) => {
 // };
 
 export const listen = (eventName: string, callback: (data: string) => void) => {
-    socket.on(eventName, (data) => {
-        callback(data);
-    });
+    socket.on(eventName, callback);
 };
 
 export const socketOff = (eventName: string, callback: listenFuncType) => {
