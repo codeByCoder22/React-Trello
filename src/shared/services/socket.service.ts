@@ -27,7 +27,7 @@ export const emit = (eventName: string, message: any) => {
 //     socket.on(eventName, callback);
 // };
 
-export const listen = (eventName: string, callback: (data: string) => void) => {
+export const listen = (eventName: string, callback: (data: any) => void) => {
     socket.on(eventName, callback);
 };
 
