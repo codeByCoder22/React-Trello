@@ -71,7 +71,7 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                             className="input-form-input"
                             placeholder={inputPlaceholder}
                             onKeyDown={handleKeyDown}
-                            ref={inputRef}
+                            ref={inputRef as React.RefObject<HTMLInputElement>}
                         />
                     )}
                     {inputType === "textarea" && (
@@ -82,7 +82,9 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                             }
                             className="input-form-input"
                             onKeyDown={handleKeyDown}
-                            ref={inputRef}
+                            ref={
+                                inputRef as React.RefObject<HTMLTextAreaElement>
+                            }
                         ></textarea>
                     )}
                     {hasButton && (
