@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import * as boardsService from "../shared/services/boards.service";
 import { BoardInterface } from "../shared/types/board.interface";
