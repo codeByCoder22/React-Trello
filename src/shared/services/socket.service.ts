@@ -34,3 +34,7 @@ export const listen = (eventName: string, callback: (data: any) => void) => {
 export const socketOff = (eventName: string, callback: listenFuncType) => {
     socket.off(eventName, callback);
 };
+
+export const socketRemoveAllListeners = () => {
+    socket.removeAllListeners();
+};

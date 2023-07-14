@@ -68,10 +68,13 @@ export const Board = () => {
             console.log("board_id", boardId);
             boardService.leaveBoard(boardId);
             dispatch(setBoard(null));
+            /*
             socketService.socketOff(
                 "boards:updateSuccess",
                 boardsUpdateSuccess
             );
+            */
+            socketService.socketRemoveAllListeners();
         };
     }, []);
 
