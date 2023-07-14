@@ -21,6 +21,13 @@ export const Board = () => {
         boardsService.updateBoard(boardId, { title: boardName });
     };
 
+    const deleteBoard = () => {
+        // if (confirm("Are you sure you want to delete this board?")) {
+        if (window.confirm("Are you sure you want to delete this board?")) {
+            boardsService.deleteBoard(boardId);
+        }
+    };
+
     const [test, setTest] = useState<string>("");
 
     const boardsUpdateSuccess = (board: BoardInterface) => {
@@ -54,7 +61,7 @@ export const Board = () => {
         fetchData();
         socketService.listen(
             // SocketEventsEnum.boardsUpdateSuccess,
-            "boards:updateSuccess",
+            SocketEventsEnum.boardsUpdateSuccess,
             boardsUpdateSuccess
         );
         socketService.listen(
@@ -89,7 +96,9 @@ export const Board = () => {
                             title={board.title}
                             handleSubmit={updateBoardName}
                         />
-                        <div className="delete-board">Delete board</div>
+                        <div onClick={deleteBoard} className="delete-board">
+                            Delete board
+                        </div>
                     </div>
                     <div className="columns">
                         {columns &&
