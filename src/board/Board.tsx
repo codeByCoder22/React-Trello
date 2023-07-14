@@ -5,11 +5,13 @@ import { SocketEventsEnum } from "../shared/types/socketEvents.enum";
 import * as boardService from "../shared/services/board.service";
 import * as boardsService from "../shared/services/boards.service";
 import * as columnService from "../shared/services/columns.service";
+import * as tasksService from "../shared/services/tasks.service";
 import { selectBoard, selectColumns } from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setBoard, setColumns } from "../boardSlice";
+import { setBoard, setColumns, setTasks } from "../boardSlice";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { BoardInterface } from "../shared/types/board.interface";
+import { TaskInterface } from "../shared/types/task.interface";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -18,8 +20,18 @@ export const Board = () => {
     const columns = useSelector(selectColumns);
     const navigate = useNavigate();
 
+    const getTasksByColumn = (
+        columnId: string,
+        tasks: TaskInterface[]
+    ): TaskInterface[] => {
+        return tasks.filter((task) => task.columnId === columnId);
+    };
+
     const updateBoardName = (boardName: string) => {
         boardsService.updateBoard(boardId, { title: boardName });
+    };
+    const updateColumnName = (columnId: string, columnName: string) => {
+        columnService.updateColumn(boardId, columnId, { title: columnName });
     };
 
     const deleteBoard = () => {
@@ -62,6 +74,15 @@ export const Board = () => {
             })
             .catch((error) => {
                 console.error("Error fetching columns:", error);
+            });
+        tasksService
+            .getTasks(boardId)
+            .then((tasks) => {
+                console.log("tasks:", tasks);
+                dispatch(setTasks(tasks));
+            })
+            .catch((error) => {
+                console.error("Error fetching tasks:", error);
             });
     }
 
@@ -114,13 +135,23 @@ export const Board = () => {
                             Delete board
                         </div>
                     </div>
+                    <hr />
                     <div className="columns">
                         {columns &&
                             columns.length > 0 &&
                             columns.map((column) => (
                                 <div className="column" key={column.id}>
                                     <div className="column-title">
-                                        {column.title}
+                                        <InlineFormComponent
+                                            defaultText={column.title}
+                                            title={column.title}
+                                            handleSubmit={(columnName) =>
+                                                updateColumnName(
+                                                    column.id,
+                                                    columnName
+                                                )
+                                            }
+                                        />
                                     </div>
                                 </div>
                             ))}
