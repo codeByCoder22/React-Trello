@@ -41,3 +41,7 @@ export const updateBoard = async (
 ) => {
     socketService.emit(SocketEventsEnum.boardsUpdate, { boardId, fields });
 };
+
+export const deleteBoard = async (boardId: string | undefined) => {
+    socketService.emit(SocketEventsEnum.boardsDelete, { boardId });
+};
