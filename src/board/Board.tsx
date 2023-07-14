@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import * as socketService from "../shared/services/socket.service";
 import { SocketEventsEnum } from "../shared/types/socketEvents.enum";
 import * as boardService from "../shared/services/board.service";
@@ -16,6 +16,7 @@ export const Board = () => {
     const dispatch = useDispatch();
     const board = useSelector(selectBoard);
     const columns = useSelector(selectColumns);
+    const navigate = useNavigate();
 
     const updateBoardName = (boardName: string) => {
         boardsService.updateBoard(boardId, { title: boardName });
@@ -32,6 +33,14 @@ export const Board = () => {
 
     const boardsUpdateSuccess = (board: BoardInterface) => {
         dispatch(setBoard(board));
+    };
+    const boardsUpdateFailure = (error: string) => {
+        console.error("boardsUpdateFailure", error);
+    };
+    const boardsDeleteSuccess = (boardId: string) => {
+        console.log("boardsDeleteSuccess", boardId);
+        setBoard(null);
+        navigate("/boards");
     };
 
     function fetchData(): void {
@@ -70,6 +79,11 @@ export const Board = () => {
                 console.error("boardsUpdateFailure", error);
             }
         );
+        socketService.listen(
+            SocketEventsEnum.boardsDeleteSuccess,
+            boardsDeleteSuccess
+        );
+
         return () => {
             console.log("leaving__board");
             console.log("board_id", boardId);
