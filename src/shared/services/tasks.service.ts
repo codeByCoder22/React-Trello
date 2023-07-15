@@ -19,3 +19,15 @@ export const getTasks = async (
 export const createTask = async (taskInput: TaskInputInterface) => {
     socketService.emit(SocketEventsEnum.tasksCreate, taskInput);
 };
+
+export const updateTask = async (
+    boardId: string | undefined,
+    taskId: string | undefined,
+    fields: { title?: string; description?: string; columnId?: string }
+) => {
+    socketService.emit(SocketEventsEnum.tasksUpdate, {
+        boardId,
+        taskId,
+        fields,
+    });
+};
