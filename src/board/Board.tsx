@@ -11,9 +11,12 @@ import {
     selectColumns,
     setColumn,
     selectTasks,
+    setBoard,
+    setColumns,
+    deleteColumn,
+    setTasks,
 } from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setBoard, setColumns, setTasks } from "../boardSlice";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { BoardInterface } from "../shared/types/board.interface";
 import { ColumnInterface } from "../shared/types/column.interface";
@@ -53,17 +56,21 @@ export const Board = () => {
         dispatch(setBoard(board));
     };
 
-    const columnsUpdateSuccess = (column: ColumnInterface) => {
+    const columnUpdateSuccess = (column: ColumnInterface) => {
         dispatch(setColumn(column));
+    };
+    const columnDeleteSuccess = (columnId: string) => {
+        dispatch(deleteColumn(columnId));
+        console.log("columnDeleteSuccess", columnId);
     };
 
     const boardsDeleteSuccess = (boardId: string) => {
         console.log("boardsDeleteSuccess", boardId);
-        setBoard(null);
+        dispatch(setBoard(null));
         navigate("/boards");
     };
 
-    const deleteColumn = (columnId: string) => {
+    const handleDeleteColumn = (columnId: string) => {
         if (window.confirm("Are you sure you want to delete this column?")) {
             columnService.deleteColumn(boardId, columnId);
         }
@@ -120,7 +127,11 @@ export const Board = () => {
         );
         socketService.listen(
             SocketEventsEnum.columnsUpdateSuccess,
-            columnsUpdateSuccess
+            columnUpdateSuccess
+        );
+        socketService.listen(
+            SocketEventsEnum.columnsDeleteSuccess,
+            columnDeleteSuccess
         );
 
         return () => {
@@ -176,7 +187,7 @@ export const Board = () => {
                                                 classes.column_delete_icon
                                             }
                                             onClick={() =>
-                                                deleteColumn(column.id)
+                                                handleDeleteColumn(column.id)
                                             }
                                         />
 
