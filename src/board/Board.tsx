@@ -16,6 +16,7 @@ import {
     createColumn,
     deleteColumn,
     setTasks,
+    createTask,
 } from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
@@ -69,6 +70,9 @@ export const Board = () => {
 
     const columnsCreateSuccess = (column: ColumnInterface) => {
         dispatch(createColumn(column));
+    };
+    const tasksCreateSuccess = (task: TaskInterface) => {
+        dispatch(createTask(task));
     };
 
     const columnUpdateSuccess = (column: ColumnInterface) => {
@@ -151,6 +155,10 @@ export const Board = () => {
         socketService.listen(
             SocketEventsEnum.columnsCreateSuccess,
             columnsCreateSuccess
+        );
+        socketService.listen(
+            SocketEventsEnum.tasksCreateSuccess,
+            tasksCreateSuccess
         );
 
         return () => {
