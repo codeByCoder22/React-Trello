@@ -7,6 +7,7 @@ import { Home } from "./Home/Home";
 import { Boards } from "./boards/Boards";
 import { Board } from "./board/Board";
 import { ProtectedRoute } from "./auth/services/ProtectedRoute";
+import { TaskModal } from "./taskModal/TaskModal";
 
 function App() {
     return (
@@ -31,6 +32,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <Board />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/boards/:boardId/tasks/:taskId"
+                        element={
+                            <ProtectedRoute>
+                                <TaskModal />
                             </ProtectedRoute>
                         }
                     />
