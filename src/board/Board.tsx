@@ -6,11 +6,17 @@ import * as boardService from "../shared/services/board.service";
 import * as boardsService from "../shared/services/boards.service";
 import * as columnService from "../shared/services/columns.service";
 import * as tasksService from "../shared/services/tasks.service";
-import { selectBoard, selectColumns } from "../boardSlice";
+import {
+    selectBoard,
+    selectColumns,
+    setColumn,
+    selectTasks,
+} from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setBoard, setColumns, setTasks } from "../boardSlice";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { BoardInterface } from "../shared/types/board.interface";
+import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 
 export const Board = () => {
@@ -18,6 +24,7 @@ export const Board = () => {
     const dispatch = useDispatch();
     const board = useSelector(selectBoard);
     const columns = useSelector(selectColumns);
+    const tasks = useSelector(selectTasks);
     const navigate = useNavigate();
 
     const getTasksByColumn = (
@@ -41,14 +48,14 @@ export const Board = () => {
         }
     };
 
-    const [test, setTest] = useState<string>("");
-
     const boardsUpdateSuccess = (board: BoardInterface) => {
         dispatch(setBoard(board));
     };
-    const boardsUpdateFailure = (error: string) => {
-        console.error("boardsUpdateFailure", error);
+
+    const columnsUpdateSuccess = (column: ColumnInterface) => {
+        dispatch(setColumn(column));
     };
+
     const boardsDeleteSuccess = (boardId: string) => {
         console.log("boardsDeleteSuccess", boardId);
         setBoard(null);
@@ -104,6 +111,10 @@ export const Board = () => {
             SocketEventsEnum.boardsDeleteSuccess,
             boardsDeleteSuccess
         );
+        socketService.listen(
+            SocketEventsEnum.columnsUpdateSuccess,
+            columnsUpdateSuccess
+        );
 
         return () => {
             console.log("leaving__board");
@@ -122,7 +133,6 @@ export const Board = () => {
 
     return (
         <>
-            <p>{test}</p>
             {board && (
                 <div className="board">
                     <div className="board-header-container">
@@ -152,7 +162,20 @@ export const Board = () => {
                                                 )
                                             }
                                         />
+                                        <div>
+                                            <ul>
+                                                {getTasksByColumn(
+                                                    column.id,
+                                                    tasks ?? []
+                                                ).map((task) => (
+                                                    <li key={task.id}>
+                                                        {task.title}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <hr />
                                 </div>
                             ))}
                     </div>

@@ -29,6 +29,16 @@ export const boardSlice = createSlice({
         ) => {
             state.columns = action.payload;
         },
+        setColumn: (state, action: PayloadAction<ColumnInterface | null>) => {
+            if (state.columns) {
+                const index = state.columns.findIndex(
+                    (column) => column.id === action.payload?.id
+                );
+                if (index !== -1) {
+                    state.columns[index] = action.payload!;
+                }
+            }
+        },
         setTasks: (state, action: PayloadAction<TaskInterface[] | null>) => {
             state.tasks = action.payload;
         },
@@ -36,7 +46,7 @@ export const boardSlice = createSlice({
 });
 
 export const { setBoard } = boardSlice.actions;
-export const { setColumns } = boardSlice.actions;
+export const { setColumns, setColumn } = boardSlice.actions;
 export const { setTasks } = boardSlice.actions;
 
 export default boardSlice.reducer;
