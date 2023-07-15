@@ -9,10 +9,11 @@ import * as tasksService from "../shared/services/tasks.service";
 import {
     selectBoard,
     selectColumns,
-    setColumn,
+    changeColumnName,
     selectTasks,
     setBoard,
     setColumns,
+    createColumn,
     deleteColumn,
     setTasks,
 } from "../boardSlice";
@@ -56,8 +57,12 @@ export const Board = () => {
         dispatch(setBoard(board));
     };
 
+    const columnsCreateSuccess = (column: ColumnInterface) => {
+        dispatch(createColumn(column));
+    };
+
     const columnUpdateSuccess = (column: ColumnInterface) => {
-        dispatch(setColumn(column));
+        dispatch(changeColumnName(column));
     };
     const columnDeleteSuccess = (columnId: string) => {
         dispatch(deleteColumn(columnId));
@@ -132,6 +137,10 @@ export const Board = () => {
         socketService.listen(
             SocketEventsEnum.columnsDeleteSuccess,
             columnDeleteSuccess
+        );
+        socketService.listen(
+            SocketEventsEnum.columnsCreateSuccess,
+            columnsCreateSuccess
         );
 
         return () => {
