@@ -26,3 +26,13 @@ export const updateColumn = async (
         fields,
     });
 };
+
+export const deleteColumn = async (
+    boardId: string | undefined,
+    columnId: string
+) => {
+    socketService.emit(SocketEventsEnum.columnsDelete, {
+        boardId,
+        columnId,
+    });
+};

@@ -18,6 +18,7 @@ import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { BoardInterface } from "../shared/types/board.interface";
 import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
+import classes from "./Board.module.css";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -60,6 +61,12 @@ export const Board = () => {
         console.log("boardsDeleteSuccess", boardId);
         setBoard(null);
         navigate("/boards");
+    };
+
+    const deleteColumn = (columnId: string) => {
+        if (window.confirm("Are you sure you want to delete this column?")) {
+            columnService.deleteColumn(boardId, columnId);
+        }
     };
 
     function fetchData(): void {
@@ -162,6 +169,17 @@ export const Board = () => {
                                                 )
                                             }
                                         />
+                                        <img
+                                            src="/assets/close_icon.svg"
+                                            alt="close_icon"
+                                            className={
+                                                classes.column_delete_icon
+                                            }
+                                            onClick={() =>
+                                                deleteColumn(column.id)
+                                            }
+                                        />
+
                                         <div>
                                             <ul>
                                                 {getTasksByColumn(
