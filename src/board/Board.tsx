@@ -23,6 +23,7 @@ import { BoardInterface } from "../shared/types/board.interface";
 import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
+import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -42,6 +43,15 @@ export const Board = () => {
     const updateBoardName = (boardName: string) => {
         boardsService.updateBoard(boardId, { title: boardName });
     };
+
+    const handleCreateColumn = (title: string) => {
+        const columnInput: ColumnInputInterface = {
+            title,
+            boardId: boardId,
+        };
+        columnService.createColumn(columnInput);
+    };
+
     const updateColumnName = (columnId: string, columnName: string) => {
         columnService.updateColumn(boardId, columnId, { title: columnName });
     };
@@ -216,6 +226,10 @@ export const Board = () => {
                                     <hr />
                                 </div>
                             ))}
+                        <InlineFormComponent
+                            defaultText="Create new column"
+                            handleSubmit={handleCreateColumn}
+                        />
                     </div>
                 </div>
             )}
