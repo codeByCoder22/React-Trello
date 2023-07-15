@@ -61,13 +61,18 @@ export const boardSlice = createSlice({
         setTasks: (state, action: PayloadAction<TaskInterface[] | null>) => {
             state.tasks = action.payload;
         },
+        createTask: (state, action: PayloadAction<TaskInterface>) => {
+            if (state.tasks) {
+                state.tasks.push(action.payload);
+            }
+        },
     },
 });
 
 export const { setBoard } = boardSlice.actions;
 export const { setColumns, changeColumnName, createColumn, deleteColumn } =
     boardSlice.actions;
-export const { setTasks } = boardSlice.actions;
+export const { setTasks, createTask } = boardSlice.actions;
 
 export default boardSlice.reducer;
 
