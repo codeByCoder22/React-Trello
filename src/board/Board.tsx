@@ -234,7 +234,14 @@ export const Board = () => {
                                                     column.id,
                                                     tasks ?? []
                                                 ).map((task) => (
-                                                    <li key={task.id}>
+                                                    <li
+                                                        key={task.id}
+                                                        onClick={() => {
+                                                            navigate(
+                                                                `/boards/${boardId}/tasks/${task.id}`
+                                                            );
+                                                        }}
+                                                    >
                                                         {task.title}
                                                     </li>
                                                 ))}
