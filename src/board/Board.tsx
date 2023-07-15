@@ -25,6 +25,7 @@ import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
+import { TaskInputInterface } from "../shared/types/taskInput.interface";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -93,6 +94,15 @@ export const Board = () => {
         if (window.confirm("Are you sure you want to delete this column?")) {
             columnService.deleteColumn(boardId, columnId);
         }
+    };
+
+    const handleCreateTask = (columnId: string, title: string) => {
+        const taskInput: TaskInputInterface = {
+            title,
+            columnId,
+            boardId,
+        };
+        tasksService.createTask(taskInput);
     };
 
     function fetchData(): void {
@@ -229,6 +239,15 @@ export const Board = () => {
                                                     </li>
                                                 ))}
                                             </ul>
+                                            <InlineFormComponent
+                                                defaultText="Add new task"
+                                                handleSubmit={(taskName) =>
+                                                    handleCreateTask(
+                                                        column.id,
+                                                        taskName
+                                                    )
+                                                }
+                                            />
                                         </div>
                                     </div>
                                     <hr />
