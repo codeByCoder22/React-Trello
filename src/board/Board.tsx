@@ -7,6 +7,9 @@ import * as boardsService from "../shared/services/boards.service";
 import * as columnService from "../shared/services/columns.service";
 import * as tasksService from "../shared/services/tasks.service";
 import {
+    selectCurrentTask,
+    setCurrentTask,
+    changeTaskName,
     selectBoard,
     selectColumns,
     changeColumnName,
@@ -36,16 +39,17 @@ export const Board = () => {
     const board = useSelector(selectBoard);
     const columns = useSelector(selectColumns);
     const tasks = useSelector(selectTasks);
+    const currentTask = useSelector(selectCurrentTask);
     const navigate = useNavigate();
 
     // #region Task Dialog Functions
 
-    const [currentTask, setCurrentTask] = useState<TaskInterface | null>(null);
+    // const [currentTask, setCurrentTask] = useState<TaskInterface | null>(null);
 
     const [outputValue, setOutputValue] = useState<string>("");
 
     const handleShowDialog = (currentTask: TaskInterface) => {
-        setCurrentTask(currentTask);
+        dispatch(setCurrentTask(currentTask));
         const favDialog = document.getElementById(
             "favDialog"
         ) as HTMLDialogElement;
@@ -137,6 +141,11 @@ export const Board = () => {
     const columnUpdateSuccess = (column: ColumnInterface) => {
         dispatch(changeColumnName(column));
     };
+
+    const taskUpdateSuccess = (task: TaskInterface) => {
+        dispatch(changeTaskName(task));
+    };
+
     const columnDeleteSuccess = (columnId: string) => {
         dispatch(deleteColumn(columnId));
         console.log("columnDeleteSuccess", columnId);
@@ -227,6 +236,11 @@ export const Board = () => {
         socketService.listen(
             SocketEventsEnum.tasksCreateSuccess,
             tasksCreateSuccess
+        );
+
+        socketService.listen(
+            SocketEventsEnum.tasksUpdateSuccess,
+            taskUpdateSuccess
         );
 
         return () => {
