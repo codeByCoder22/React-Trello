@@ -9,7 +9,7 @@ import * as tasksService from "../shared/services/tasks.service";
 import {
     selectCurrentTask,
     setCurrentTask,
-    changeTaskName,
+    updateTask,
     selectBoard,
     selectColumns,
     changeColumnName,
@@ -65,6 +65,17 @@ export const Board = () => {
         confirmBtn.value = event.target.value;
     };
 
+    const handleOptionChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const selectedOption = event.target.value;
+        // Do something with the selected option value
+        console.log(selectedOption);
+        tasksService.updateTask(boardId, currentTask!.id, {
+            columnId: selectedOption,
+        });
+    };
+
     const handleConfirmClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         const favDialog = document.getElementById(
@@ -116,6 +127,12 @@ export const Board = () => {
         tasksService.updateTask(boardId, currentTask!.id, { title: taskName });
     };
 
+    const handleUpdateTaskDescription = (Description: string) => {
+        tasksService.updateTask(boardId, currentTask!.id, {
+            description: Description,
+        });
+    };
+
     const deleteBoard = () => {
         // if (confirm("Are you sure you want to delete this board?")) {
         if (
@@ -143,7 +160,7 @@ export const Board = () => {
     };
 
     const taskUpdateSuccess = (task: TaskInterface) => {
-        dispatch(changeTaskName(task));
+        dispatch(updateTask(task));
     };
 
     const columnDeleteSuccess = (columnId: string) => {
@@ -202,6 +219,15 @@ export const Board = () => {
                 console.error("Error fetching tasks:", error);
             });
     }
+    useEffect(() => {
+        if (currentTask) {
+            console.log("useEffect");
+            const taskSelect = document.getElementById(
+                "task_select"
+            ) as HTMLSelectElement;
+            taskSelect.value = currentTask!.columnId;
+        }
+    }, [currentTask]);
 
     useEffect(() => {
         socketService.emit(SocketEventsEnum.boardsJoin, { boardId });
@@ -362,7 +388,7 @@ export const Board = () => {
                 <CgClose />
                 <form>
                     <p>
-                        <select onChange={handleSelectChange}>
+                        <select onChange={handleOptionChange} id="task_select">
                             {columns?.map((column) => (
                                 <option value={column.id} key={column.id}>
                                     {column.title}
@@ -371,7 +397,12 @@ export const Board = () => {
                         </select>
                     </p>
                     <CgTrash />
-
+                    <p>Description</p>
+                    <InlineFormComponent
+                        defaultText={currentTask?.description}
+                        title={currentTask?.description}
+                        handleSubmit={handleUpdateTaskDescription}
+                    />
                     <div>
                         <button value="cancel" formMethod="dialog">
                             Cancel
