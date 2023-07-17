@@ -60,7 +60,7 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                 <div className="inline-form-text">{defaultText}</div>
             )}
             {isEditing && (
-                <form onSubmit={onSubmit} className="inline-form">
+                <form onSubmit={onSubmit}>
                     {inputType === "input" && (
                         <input
                             type="text"
