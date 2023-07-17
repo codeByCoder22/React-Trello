@@ -40,9 +40,12 @@ export const Board = () => {
 
     // #region Task Dialog Functions
 
+    const [currentTask, setCurrentTask] = useState<TaskInterface | null>(null);
+
     const [outputValue, setOutputValue] = useState<string>("");
 
-    const handleShowDialog = () => {
+    const handleShowDialog = (currentTask: TaskInterface) => {
+        setCurrentTask(currentTask);
         const favDialog = document.getElementById(
             "favDialog"
         ) as HTMLDialogElement;
@@ -103,6 +106,10 @@ export const Board = () => {
 
     const updateColumnName = (columnId: string, columnName: string) => {
         columnService.updateColumn(boardId, columnId, { title: columnName });
+    };
+
+    const handleUpdateTaskName = (taskName: string) => {
+        tasksService.updateTask(boardId, currentTask!.id, { title: taskName });
     };
 
     const deleteBoard = () => {
@@ -296,7 +303,9 @@ export const Board = () => {
                                             <div
                                                 className={classes.task}
                                                 key={task.id}
-                                                onClick={handleShowDialog}
+                                                onClick={() =>
+                                                    handleShowDialog(task)
+                                                }
                                             >
                                                 {task.title}
                                             </div>
@@ -330,20 +339,25 @@ export const Board = () => {
                 onClose={handleDialogClose}
                 // style={dialogStyle}
             >
-                <CgTrash />
+                {/* <p>{currentTask?.title}</p> */}
+                <InlineFormComponent
+                    defaultText={currentTask?.title}
+                    title={currentTask?.title}
+                    handleSubmit={handleUpdateTaskName}
+                />
                 <CgClose />
                 <form>
                     <p>
-                        <label>
-                            Favorite animal:
-                            <select onChange={handleSelectChange}>
-                                <option value="default">Choose…</option>
-                                <option>Brine shrimp</option>
-                                <option>Red panda</option>
-                                <option>Spider monkey</option>
-                            </select>
-                        </label>
+                        <select onChange={handleSelectChange}>
+                            {columns?.map((column) => (
+                                <option value={column.id} key={column.id}>
+                                    {column.title}
+                                </option>
+                            ))}
+                        </select>
                     </p>
+                    <CgTrash />
+
                     <div>
                         <button value="cancel" formMethod="dialog">
                             Cancel
