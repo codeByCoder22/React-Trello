@@ -26,6 +26,7 @@ import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
+import { CgCloseO } from "react-icons/cg";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -190,22 +191,20 @@ export const Board = () => {
         <>
             {board && (
                 <div className="board">
-                    <div className="board-header-container">
+                    <div className={classes.board_header_container}>
                         <InlineFormComponent
                             defaultText={board.title}
                             title={board.title}
                             handleSubmit={updateBoardName}
                         />
-                        <div onClick={deleteBoard} className="delete-board">
-                            Delete board
-                        </div>
+
+                        <CgCloseO onClick={deleteBoard} />
                     </div>
-                    <hr />
-                    <div className="columns">
+                    <div className={classes.columns}>
                         {columns &&
                             columns.length > 0 &&
                             columns.map((column) => (
-                                <div className="column" key={column.id}>
+                                <div className={classes.column} key={column.id}>
                                     <div className="column-title">
                                         <InlineFormComponent
                                             defaultText={column.title}
@@ -217,12 +216,17 @@ export const Board = () => {
                                                 )
                                             }
                                         />
-                                        <img
+                                        {/* <img
                                             src="/assets/close_icon.svg"
                                             alt="close_icon"
                                             className={
                                                 classes.column_delete_icon
                                             }
+                                            onClick={() =>
+                                                handleDeleteColumn(column.id)
+                                            }
+                                        /> */}
+                                        <CgCloseO
                                             onClick={() =>
                                                 handleDeleteColumn(column.id)
                                             }
@@ -257,7 +261,6 @@ export const Board = () => {
                                             />
                                         </div>
                                     </div>
-                                    <hr />
                                 </div>
                             ))}
                         <InlineFormComponent

@@ -1,15 +1,18 @@
 .header {
     /* max-width: 60rem; */
     /* margin: auto; */
-    padding: 2rem;
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* padding: 2rem; */
+    /* justify-content: space-between; */
     background-color: #2e1b5d;
 }
 
 .list {
     display: flex;
+    padding: 2rem;
     gap: 1rem;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
 .list a {
