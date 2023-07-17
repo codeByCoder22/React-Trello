@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { LoginRequestInterface } from "../types/loginRequest.interface";
 import { useAuthContext } from "../services/AuthContext";
@@ -76,9 +76,10 @@ const Login: React.FC = () => {
                 </div>
 
                 <button type="submit">Login</button>
+                <Link to="/register">To Register</Link>
                 {/* {error && <p>{error}</p>} */}
                 {error && (
-                    <ul>
+                    <ul className={classes.error}>
                         {Object.values(error).map((err) => (
                             <li key={err}>{err}</li>
                         ))}
