@@ -26,7 +26,8 @@ import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
-import { CgCloseO } from "react-icons/cg";
+// icons :css.gg
+import { CgCloseO, CgCornerUpLeft } from "react-icons/cg";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -61,7 +62,11 @@ export const Board = () => {
 
     const deleteBoard = () => {
         // if (confirm("Are you sure you want to delete this board?")) {
-        if (window.confirm("Are you sure you want to delete this board?")) {
+        if (
+            window.confirm(
+                "Are you sure you want to delete this board ?\nAll columns and tasks will be deleted."
+            )
+        ) {
             boardsService.deleteBoard(boardId);
         }
     };
@@ -198,14 +203,21 @@ export const Board = () => {
                             handleSubmit={updateBoardName}
                         />
 
-                        <CgCloseO onClick={deleteBoard} />
+                        <CgCloseO
+                            className={classes.css_gg_icon}
+                            onClick={deleteBoard}
+                        />
+                        <CgCornerUpLeft
+                            className={classes.css_gg_icon}
+                            onClick={() => navigate("/boards")}
+                        />
                     </div>
                     <div className={classes.columns}>
                         {columns &&
                             columns.length > 0 &&
                             columns.map((column) => (
                                 <div className={classes.column} key={column.id}>
-                                    <div className="column-title">
+                                    <div className={classes.column_title}>
                                         <InlineFormComponent
                                             defaultText={column.title}
                                             title={column.title}
@@ -216,57 +228,51 @@ export const Board = () => {
                                                 )
                                             }
                                         />
-                                        {/* <img
-                                            src="/assets/close_icon.svg"
-                                            alt="close_icon"
-                                            className={
-                                                classes.column_delete_icon
-                                            }
-                                            onClick={() =>
-                                                handleDeleteColumn(column.id)
-                                            }
-                                        /> */}
+
                                         <CgCloseO
+                                            className={classes.css_gg_icon}
                                             onClick={() =>
                                                 handleDeleteColumn(column.id)
                                             }
                                         />
+                                    </div>
 
-                                        <div>
-                                            <ul>
-                                                {getTasksByColumn(
+                                    <div>
+                                        {getTasksByColumn(
+                                            column.id,
+                                            tasks ?? []
+                                        ).map((task) => (
+                                            <div
+                                                className={classes.task}
+                                                key={task.id}
+                                                onClick={() => {
+                                                    navigate(
+                                                        `/boards/${boardId}/tasks/${task.id}`
+                                                    );
+                                                }}
+                                            >
+                                                {task.title}
+                                            </div>
+                                        ))}
+
+                                        <InlineFormComponent
+                                            defaultText="Add new task"
+                                            handleSubmit={(taskName) =>
+                                                handleCreateTask(
                                                     column.id,
-                                                    tasks ?? []
-                                                ).map((task) => (
-                                                    <li
-                                                        key={task.id}
-                                                        onClick={() => {
-                                                            navigate(
-                                                                `/boards/${boardId}/tasks/${task.id}`
-                                                            );
-                                                        }}
-                                                    >
-                                                        {task.title}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                            <InlineFormComponent
-                                                defaultText="Add new task"
-                                                handleSubmit={(taskName) =>
-                                                    handleCreateTask(
-                                                        column.id,
-                                                        taskName
-                                                    )
-                                                }
-                                            />
-                                        </div>
+                                                    taskName
+                                                )
+                                            }
+                                        />
                                     </div>
                                 </div>
                             ))}
-                        <InlineFormComponent
-                            defaultText="Create new column"
-                            handleSubmit={handleCreateColumn}
-                        />
+                        <div className={classes.column}>
+                            <InlineFormComponent
+                                defaultText="Create new column"
+                                handleSubmit={handleCreateColumn}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

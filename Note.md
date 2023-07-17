@@ -37,3 +37,5 @@ npm run build
 serve -s build
 
 npm install @reduxjs/toolkit
+
+[react-icons:](https://react-icons.github.io/react-icons/icons?name=cg)

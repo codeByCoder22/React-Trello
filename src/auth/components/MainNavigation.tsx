@@ -80,7 +80,6 @@ export const MainNavigation = () => {
                     </ul>
                 </nav>
             </header>
-            <hr />
         </>
     );
 };

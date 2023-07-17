@@ -1,14 +1,17 @@
-.column_delete_icon {
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    cursor: pointer;
-}
 .board_header_container {
     display: flex;
-    background-color: #00791f;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #572155, #4b125b);
     padding: 0.6rem;
     align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(96, 198, 210, 0.4);
+}
+.css_gg_icon {
+    margin-left: 1.6rem;
+    cursor: pointer;
 }
 .columns {
     display: flex;
@@ -16,12 +19,25 @@
     flex-wrap: wrap;
     /* justify-content: space-between; */
     align-items: flex-start;
-    background-color: #f0791f;
     gap: 1rem;
 }
 .column {
     border-radius: 5px;
     padding: 1rem;
-    background: #4bce97;
-    color: white;
+    background: #e1b202;
+    color: black;
+}
+.column_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #a0701f; */
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.task {
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: #94c748;
+    margin: 0.5rem 0;
 }

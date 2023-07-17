@@ -5,6 +5,7 @@ import { LoginRequestInterface } from "../types/loginRequest.interface";
 import { useAuthContext } from "../services/AuthContext";
 import * as authService from "../services/authService";
 import * as socketService from "../../shared/services/socket.service";
+import classes from "./au.module.css";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -52,9 +53,9 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={classes.au_container}>
             <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={classes.form}>
                 <div>
                     <label>Email:</label>
                     <input

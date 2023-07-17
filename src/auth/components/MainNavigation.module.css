@@ -1,15 +1,13 @@
 .header {
-    /* max-width: 60rem; */
-    /* margin: auto; */
-    /* display: flex; */
-    /* padding: 2rem; */
-    /* justify-content: space-between; */
     background-color: #2e1b5d;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .list {
     display: flex;
-    padding: 2rem;
+    padding: 1rem;
     gap: 1rem;
     justify-content: flex-start;
     align-items: flex-end;
@@ -22,5 +20,5 @@
 
 .list a:hover,
 .list a.active {
-    color: #0f8ea7;
+    color: #94c748;
 }

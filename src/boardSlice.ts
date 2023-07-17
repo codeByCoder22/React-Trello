@@ -2,7 +2,7 @@ import { BoardInterface } from "./shared/types/board.interface";
 import { ColumnInterface } from "./shared/types/column.interface";
 import { TaskInterface } from "./shared/types/task.interface";
 
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface BoardState {
     board: BoardInterface | null;
