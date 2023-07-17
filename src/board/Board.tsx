@@ -24,10 +24,11 @@ import { BoardInterface } from "../shared/types/board.interface";
 import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
+import modalCls from "./TaskDialog.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
 // icons :css.gg
-import { CgCloseO, CgCornerUpLeft } from "react-icons/cg";
+import { CgClose, CgCornerUpLeft, CgTrash } from "react-icons/cg";
 
 export const Board = () => {
     const { boardId } = useParams();
@@ -36,6 +37,50 @@ export const Board = () => {
     const columns = useSelector(selectColumns);
     const tasks = useSelector(selectTasks);
     const navigate = useNavigate();
+
+    // #region Task Dialog Functions
+
+    const [outputValue, setOutputValue] = useState<string>("");
+
+    const handleShowDialog = () => {
+        const favDialog = document.getElementById(
+            "favDialog"
+        ) as HTMLDialogElement;
+        favDialog.showModal();
+    };
+
+    const handleSelectChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const confirmBtn = document.getElementById(
+            "confirmBtn"
+        ) as HTMLButtonElement;
+        confirmBtn.value = event.target.value;
+    };
+
+    const handleConfirmClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        const favDialog = document.getElementById(
+            "favDialog"
+        ) as HTMLDialogElement;
+        const selectEl = favDialog.querySelector("select") as HTMLSelectElement;
+        favDialog.close(selectEl.value);
+    };
+
+    const handleDialogClose = (
+        event: React.SyntheticEvent<HTMLDialogElement>
+    ) => {
+        const favDialog = document.getElementById(
+            "favDialog"
+        ) as HTMLDialogElement;
+        setOutputValue(
+            favDialog.returnValue === "default"
+                ? "No return value."
+                : `ReturnValue: ${favDialog.returnValue}.`
+        );
+    };
+
+    // #endregion
 
     const getTasksByColumn = (
         columnId: string,
@@ -191,7 +236,13 @@ export const Board = () => {
             socketService.socketRemoveAllListeners();
         };
     }, []);
-
+    const dialogStyle = {
+        backgroundColor: "#9F90EF",
+        // border: "1 solid antiquewhite",
+        borderRadius: "0.5rem",
+        width: "50%",
+        height: "40%",
+    };
     return (
         <>
             {board && (
@@ -203,7 +254,7 @@ export const Board = () => {
                             handleSubmit={updateBoardName}
                         />
 
-                        <CgCloseO
+                        <CgTrash
                             className={classes.css_gg_icon}
                             onClick={deleteBoard}
                         />
@@ -229,7 +280,7 @@ export const Board = () => {
                                             }
                                         />
 
-                                        <CgCloseO
+                                        <CgTrash
                                             className={classes.css_gg_icon}
                                             onClick={() =>
                                                 handleDeleteColumn(column.id)
@@ -245,11 +296,7 @@ export const Board = () => {
                                             <div
                                                 className={classes.task}
                                                 key={task.id}
-                                                onClick={() => {
-                                                    navigate(
-                                                        `/boards/${boardId}/tasks/${task.id}`
-                                                    );
-                                                }}
+                                                onClick={handleShowDialog}
                                             >
                                                 {task.title}
                                             </div>
@@ -276,6 +323,42 @@ export const Board = () => {
                     </div>
                 </div>
             )}
+
+            <dialog
+                className={modalCls.dialog}
+                id="favDialog"
+                onClose={handleDialogClose}
+                // style={dialogStyle}
+            >
+                <CgTrash />
+                <CgClose />
+                <form>
+                    <p>
+                        <label>
+                            Favorite animal:
+                            <select onChange={handleSelectChange}>
+                                <option value="default">Choose…</option>
+                                <option>Brine shrimp</option>
+                                <option>Red panda</option>
+                                <option>Spider monkey</option>
+                            </select>
+                        </label>
+                    </p>
+                    <div>
+                        <button value="cancel" formMethod="dialog">
+                            Cancel
+                        </button>
+                        <button
+                            id="confirmBtn"
+                            onClick={handleConfirmClick}
+                            value="default"
+                        >
+                            Confirm
+                        </button>
+                    </div>
+                </form>
+            </dialog>
+            <output>{outputValue}</output>
         </>
     );
 };

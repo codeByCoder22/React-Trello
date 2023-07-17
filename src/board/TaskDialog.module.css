@@ -1,0 +1,7 @@
+.dialog {
+    border: none;
+    background-color: #9f90ef;
+    border-radius: 0.5rem;
+    width: 50%;
+    height: 40%;
+}
