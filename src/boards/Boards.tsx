@@ -3,6 +3,7 @@ import * as boardsService from "../shared/services/boards.service";
 import { BoardInterface } from "../shared/types/board.interface";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { Link } from "react-router-dom";
+import classes from "./Boards.module.css";
 
 export const Boards = () => {
     const [boards, setBoards] = useState<BoardInterface[]>([]);
@@ -37,13 +38,16 @@ export const Boards = () => {
     }, []);
 
     return (
-        <>
+        <div className={classes.boards}>
             <h1>My Boards</h1>
-            <InlineFormComponent
-                defaultText="Create new board"
-                handleSubmit={createBoard}
-            />
-            <ul>
+            <div className={classes.flex_}>
+                <div className={classes.inlineForm}>
+                    <InlineFormComponent
+                        defaultText="Create new board"
+                        handleSubmit={createBoard}
+                    />
+                </div>
+
                 {boards.map((board) => (
                     <Link
                         to={`/boards/${board.id}`}
@@ -55,9 +59,10 @@ export const Boards = () => {
                         </div>
                     </Link>
                 ))}
-            </ul>
-            {isLoading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
-        </>
+
+                {isLoading && <p>Loading...</p>}
+                {error && <p>{error}</p>}
+            </div>
+        </div>
     );
 };

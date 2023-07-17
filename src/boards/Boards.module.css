@@ -1,0 +1,34 @@
+/* .container {
+    width: 100%;
+} */
+.boards {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; */
+    width: 80%;
+    margin: 0 auto;
+    /* background-color: #5ff; */
+}
+h1 {
+    /* text-align: center; */
+    margin: 1rem 0;
+    font-size: 1.6rem;
+}
+.flex_ {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.flex_ > .inlineForm {
+    border-radius: 5px;
+    padding: 1rem;
+    background: gray;
+    color: white;
+}
+.flex_ > a {
+    border-radius: 5px;
+    padding: 1rem;
+    background: #4bce97;
+    color: white;
+}
