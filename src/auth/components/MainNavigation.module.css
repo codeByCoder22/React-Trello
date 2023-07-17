@@ -22,3 +22,11 @@
 .list a.active {
     color: #94c748;
 }
+.user {
+    background-color: #00a4bf;
+    padding: 3px 4px;
+    border-radius: 45%;
+}
+.logout {
+    cursor: pointer;
+}
