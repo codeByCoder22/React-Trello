@@ -16,7 +16,8 @@
     border-radius: 5px;
 }
 .form input {
-    width: 90%;
+    /* text-align: center; */
+    width: 280px;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -25,9 +26,30 @@
 .form button {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin: 18px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #ccc;
+    background-color: #94c748;
     cursor: pointer;
+    font-weight: 700;
+}
+.form a {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 10px 0;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.form .error {
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 10px 0;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 18px;
 }
