@@ -8,12 +8,14 @@ export interface BoardState {
     board: BoardInterface | null;
     columns: ColumnInterface[] | null;
     tasks: TaskInterface[] | null;
+    currentTask: TaskInterface | null;
 }
 
 const initialState: BoardState = {
     board: null,
     columns: null,
     tasks: null,
+    currentTask: null,
 };
 
 export const boardSlice = createSlice({
@@ -42,6 +44,17 @@ export const boardSlice = createSlice({
                 }
             }
         },
+        changeTaskName: (state, action: PayloadAction<TaskInterface>) => {
+            if (state.tasks) {
+                const index = state.tasks.findIndex(
+                    (task) => task.id === action.payload.id
+                );
+                if (index !== -1) {
+                    state.tasks[index] = action.payload;
+                    state.currentTask = action.payload;
+                }
+            }
+        },
         deleteColumn: (state, action: PayloadAction<string>) => {
             if (state.columns) {
                 const index = state.columns.findIndex(
@@ -66,13 +79,20 @@ export const boardSlice = createSlice({
                 state.tasks.push(action.payload);
             }
         },
+        setCurrentTask: (
+            state,
+            action: PayloadAction<TaskInterface | null>
+        ) => {
+            state.currentTask = action.payload;
+        },
     },
 });
 
 export const { setBoard } = boardSlice.actions;
 export const { setColumns, changeColumnName, createColumn, deleteColumn } =
     boardSlice.actions;
-export const { setTasks, createTask } = boardSlice.actions;
+export const { setTasks, createTask, setCurrentTask, changeTaskName } =
+    boardSlice.actions;
 
 export default boardSlice.reducer;
 
@@ -80,3 +100,5 @@ export const selectBoard = (state: { board: BoardState }) => state.board.board;
 export const selectColumns = (state: { board: BoardState }) =>
     state.board.columns;
 export const selectTasks = (state: { board: BoardState }) => state.board.tasks;
+export const selectCurrentTask = (state: { board: BoardState }) =>
+    state.board.currentTask;
