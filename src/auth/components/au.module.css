@@ -1,0 +1,33 @@
+.au_container {
+    text-align: center;
+}
+.au_container h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 20px 0;
+}
+.form {
+    display: inline-block;
+    text-align: left;
+    margin: 0 auto;
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.form input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.form button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ccc;
+    cursor: pointer;
+}

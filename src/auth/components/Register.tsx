@@ -5,6 +5,7 @@ import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { useAuthContext } from "../services/AuthContext";
 import * as authService from "../services/authService";
 import * as socketService from "../../shared/services/socket.service";
+import classes from "./au.module.css";
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -53,9 +54,9 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={classes.au_container}>
             <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={classes.form}>
                 <div>
                     <label>Email:</label>
                     <input
