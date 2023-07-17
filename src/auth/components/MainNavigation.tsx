@@ -69,12 +69,14 @@ export const MainNavigation = () => {
                         )}
                         {isLogged && (
                             <li>
-                                <span>{currentUser?.username}</span>
+                                <span className={classes.user}>
+                                    {currentUser?.username}
+                                </span>
                             </li>
                         )}
                         {isLogged && (
-                            <li>
-                                <button onClick={handleLogout}>Logout</button>
+                            <li className={classes.logout}>
+                                <span onClick={handleLogout}>Logout</span>
                             </li>
                         )}
                     </ul>
