@@ -44,7 +44,7 @@ export const boardSlice = createSlice({
                 }
             }
         },
-        changeTaskName: (state, action: PayloadAction<TaskInterface>) => {
+        updateTask: (state, action: PayloadAction<TaskInterface>) => {
             if (state.tasks) {
                 const index = state.tasks.findIndex(
                     (task) => task.id === action.payload.id
@@ -91,7 +91,7 @@ export const boardSlice = createSlice({
 export const { setBoard } = boardSlice.actions;
 export const { setColumns, changeColumnName, createColumn, deleteColumn } =
     boardSlice.actions;
-export const { setTasks, createTask, setCurrentTask, changeTaskName } =
+export const { setTasks, createTask, setCurrentTask, updateTask } =
     boardSlice.actions;
 
 export default boardSlice.reducer;
