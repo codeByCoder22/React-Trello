@@ -9,6 +9,7 @@ export interface BoardState {
     columns: ColumnInterface[] | null;
     tasks: TaskInterface[] | null;
     currentTask: TaskInterface | null;
+    deletedTaskID: string | null;
 }
 
 const initialState: BoardState = {
@@ -16,6 +17,7 @@ const initialState: BoardState = {
     columns: null,
     tasks: null,
     currentTask: null,
+    deletedTaskID: null,
 };
 
 export const boardSlice = createSlice({
@@ -95,6 +97,9 @@ export const boardSlice = createSlice({
         ) => {
             state.currentTask = action.payload;
         },
+        setDeletedTaskID: (state, action: PayloadAction<string | null>) => {
+            state.deletedTaskID = action.payload;
+        },
     },
 });
 
@@ -105,6 +110,7 @@ export const {
     createColumn,
     deleteColumn,
     deleteTask,
+    setDeletedTaskID,
 } = boardSlice.actions;
 export const { setTasks, createTask, setCurrentTask, updateTask } =
     boardSlice.actions;
@@ -117,3 +123,5 @@ export const selectColumns = (state: { board: BoardState }) =>
 export const selectTasks = (state: { board: BoardState }) => state.board.tasks;
 export const selectCurrentTask = (state: { board: BoardState }) =>
     state.board.currentTask;
+export const selectDeletedTaskID = (state: { board: BoardState }) =>
+    state.board.deletedTaskID;
