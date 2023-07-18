@@ -45,7 +45,9 @@ export const Board = () => {
 
     // #region Task Dialog Functions
 
-    // const [currentTask, setCurrentTask] = useState<TaskInterface | null>(null);
+    const [CcurrentTask, setCCurrentTask] = useState<TaskInterface | null>(
+        null
+    );
 
     const [outputValue, setOutputValue] = useState<string>("");
 
@@ -180,10 +182,47 @@ export const Board = () => {
             columnService.deleteColumn(boardId, columnId);
         }
     };
-    const DeleteTaskSuccess = (taskId: string) => {
+
+    const handleDeleteTask = (taskId: string | undefined) => {
+        if (window.confirm("Are you sure you want to delete this task?")) {
+            tasksService.deleteTask(boardId, taskId);
+            const favDialog = document.getElementById(
+                "favDialog"
+            ) as HTMLDialogElement;
+            favDialog.close();
+        }
+    };
+    const DeleteTaskSuccess = (
+        taskId: string,
+        currentTask: TaskInterface | null
+    ) => {
+        console.log("Deleted Task ID: ", taskId);
+        console.log("currentTask?.id", currentTask?.id);
+
+        if (taskId === currentTask?.id) {
+            const favDialog = document.getElementById(
+                "favDialog"
+            ) as HTMLDialogElement;
+            favDialog.close();
+        }
         dispatch(deleteTask(taskId));
     };
 
+    /*
+    const DeleteTaskSuccess = (taskId: string) => {
+        console.log("Deleted Task ID: ", taskId);
+        console.log("currentTask?.id", currentTask?.id);
+        console.log("CcurrentTask?.id", CcurrentTask?.id);
+        // tasksService.deleteTask(boardId, taskId);
+        if (taskId === currentTask?.id) {
+            const favDialog = document.getElementById(
+                "favDialog"
+            ) as HTMLDialogElement;
+            favDialog.close();
+        }
+        dispatch(deleteTask(taskId));
+    };
+*/
     const handleCreateTask = (columnId: string, title: string) => {
         const taskInput: TaskInputInterface = {
             title,
@@ -191,6 +230,13 @@ export const Board = () => {
             boardId,
         };
         tasksService.createTask(taskInput);
+    };
+
+    const handleCloseModal = () => {
+        const favDialog = document.getElementById(
+            "favDialog"
+        ) as HTMLDialogElement;
+        favDialog.close();
     };
 
     function fetchData(): void {
@@ -230,8 +276,11 @@ export const Board = () => {
                 "task_select"
             ) as HTMLSelectElement;
             taskSelect.value = currentTask!.columnId;
+            dispatch(setCurrentTask(currentTask));
+            setCCurrentTask(currentTask);
+            console.log("useEffect_currentTask ID :", currentTask?.id);
         }
-    }, [currentTask]);
+    }, [currentTask, tasks]);
 
     useEffect(() => {
         socketService.emit(SocketEventsEnum.boardsJoin, { boardId });
@@ -272,9 +321,17 @@ export const Board = () => {
             SocketEventsEnum.tasksUpdateSuccess,
             taskUpdateSuccess
         );
+        /*
         socketService.listen(
             SocketEventsEnum.tasksDeleteSuccess,
             DeleteTaskSuccess
+        );
+        */
+        socketService.listen(
+            SocketEventsEnum.tasksDeleteSuccess,
+            (data: any) => {
+                DeleteTaskSuccess(data, currentTask);
+            }
         );
 
         return () => {
@@ -291,13 +348,7 @@ export const Board = () => {
             socketService.socketRemoveAllListeners();
         };
     }, []);
-    const dialogStyle = {
-        backgroundColor: "#9F90EF",
-        // border: "1 solid antiquewhite",
-        borderRadius: "0.5rem",
-        width: "50%",
-        height: "40%",
-    };
+
     return (
         <>
             {board && (
@@ -318,6 +369,8 @@ export const Board = () => {
                             onClick={() => navigate("/boards")}
                         />
                     </div>
+                    <output>{currentTask?.id}</output>
+
                     <div className={classes.columns}>
                         {columns &&
                             columns.length > 0 &&
@@ -356,6 +409,7 @@ export const Board = () => {
                                                 }
                                             >
                                                 {task.title}
+                                                {` _ ${task.id.slice(-5)}`}
                                             </div>
                                         ))}
 
@@ -394,10 +448,14 @@ export const Board = () => {
                         title={currentTask?.title}
                         handleSubmit={handleUpdateTaskName}
                     />
-                    <CgTrash className={modalCls.icon} />
+                    <CgTrash
+                        className={modalCls.icon}
+                        onClick={() => handleDeleteTask(currentTask?.id)}
+                    />
 
                     <CgClose
                         className={`${modalCls.up_right} ${modalCls.icon}`}
+                        onClick={handleCloseModal}
                     />
                     <select
                         onChange={handleOptionChange}
@@ -412,6 +470,7 @@ export const Board = () => {
                     </select>
 
                     <p className={modalCls.des_label}>Description</p>
+                    <p className={modalCls.task_id}>{currentTask?.id}</p>
                     <div className={modalCls.des_container}>
                         <InlineFormComponent
                             defaultText={currentTask?.description}
@@ -433,7 +492,6 @@ export const Board = () => {
                     </div>
                 </div>
             </dialog>
-            <output>{outputValue}</output>
         </>
     );
 };

@@ -2,8 +2,8 @@
     border: none;
     background-color: #9f90ef;
     border-radius: 0.5rem;
-    width: 50%;
-    height: 40%;
+    width: 500px;
+    height: 300px;
 }
 .flex_container {
     display: grid;
@@ -14,7 +14,7 @@
     grid-template-areas:
         "header header header"
         "option . ."
-        "des_label . ."
+        "des_label task_id ."
         "des_container buttons buttons";
 }
 .option {
@@ -42,4 +42,7 @@
 }
 .icon {
     cursor: pointer;
+}
+.task_id {
+    grid-area: task_id;
 }
