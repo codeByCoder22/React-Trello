@@ -5,3 +5,41 @@
     width: 50%;
     height: 40%;
 }
+.flex_container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 40% 40% 20%;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+        "header header header"
+        "option . ."
+        "des_label . ."
+        "des_container buttons buttons";
+}
+.option {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    height: 1.5rem;
+    /* font-size: 1.5rem; */
+    /* color: #fff; */
+    /* background-color: #9f90ef; */
+    border: none;
+    /* border-radius: 0.5rem; */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.des_label {
+    grid-area: des_label;
+}
+.des_container {
+    grid-area: des_container;
+}
+.up_right {
+    align-self: start;
+    justify-self: end;
+}
+.icon {
+    cursor: pointer;
+}

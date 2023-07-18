@@ -379,30 +379,38 @@ export const Board = () => {
                 onClose={handleDialogClose}
                 // style={dialogStyle}
             >
-                {/* <p>{currentTask?.title}</p> */}
-                <InlineFormComponent
-                    defaultText={currentTask?.title}
-                    title={currentTask?.title}
-                    handleSubmit={handleUpdateTaskName}
-                />
-                <CgClose />
-                <form>
-                    <p>
-                        <select onChange={handleOptionChange} id="task_select">
-                            {columns?.map((column) => (
-                                <option value={column.id} key={column.id}>
-                                    {column.title}
-                                </option>
-                            ))}
-                        </select>
-                    </p>
-                    <CgTrash />
-                    <p>Description</p>
+                <div className={modalCls.flex_container}>
+                    {/* <p>{currentTask?.title}</p> */}
                     <InlineFormComponent
-                        defaultText={currentTask?.description}
-                        title={currentTask?.description}
-                        handleSubmit={handleUpdateTaskDescription}
+                        defaultText={currentTask?.title}
+                        title={currentTask?.title}
+                        handleSubmit={handleUpdateTaskName}
                     />
+                    <CgTrash className={modalCls.icon} />
+
+                    <CgClose
+                        className={`${modalCls.up_right} ${modalCls.icon}`}
+                    />
+                    <select
+                        onChange={handleOptionChange}
+                        id="task_select"
+                        className={modalCls.option}
+                    >
+                        {columns?.map((column) => (
+                            <option value={column.id} key={column.id}>
+                                {column.title}
+                            </option>
+                        ))}
+                    </select>
+
+                    <p className={modalCls.des_label}>Description</p>
+                    <div className={modalCls.des_container}>
+                        <InlineFormComponent
+                            defaultText={currentTask?.description}
+                            title={currentTask?.description}
+                            handleSubmit={handleUpdateTaskDescription}
+                        />
+                    </div>
                     <div>
                         <button value="cancel" formMethod="dialog">
                             Cancel
@@ -415,7 +423,7 @@ export const Board = () => {
                             Confirm
                         </button>
                     </div>
-                </form>
+                </div>
             </dialog>
             <output>{outputValue}</output>
         </>
