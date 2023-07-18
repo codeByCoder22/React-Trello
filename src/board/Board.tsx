@@ -21,6 +21,8 @@ import {
     setTasks,
     createTask,
     deleteTask,
+    setDeletedTaskID,
+    selectDeletedTaskID,
 } from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
@@ -41,15 +43,10 @@ export const Board = () => {
     const columns = useSelector(selectColumns);
     const tasks = useSelector(selectTasks);
     const currentTask = useSelector(selectCurrentTask);
+    const deletedTaskID = useSelector(selectDeletedTaskID);
     const navigate = useNavigate();
 
     // #region Task Dialog Functions
-
-    const [CcurrentTask, setCCurrentTask] = useState<TaskInterface | null>(
-        null
-    );
-
-    const [outputValue, setOutputValue] = useState<string>("");
 
     const handleShowDialog = (currentTask: TaskInterface) => {
         dispatch(setCurrentTask(currentTask));
@@ -87,20 +84,6 @@ export const Board = () => {
         const selectEl = favDialog.querySelector("select") as HTMLSelectElement;
         favDialog.close(selectEl.value);
     };
-
-    const handleDialogClose = (
-        event: React.SyntheticEvent<HTMLDialogElement>
-    ) => {
-        const favDialog = document.getElementById(
-            "favDialog"
-        ) as HTMLDialogElement;
-        setOutputValue(
-            favDialog.returnValue === "default"
-                ? "No return value."
-                : `ReturnValue: ${favDialog.returnValue}.`
-        );
-    };
-
     // #endregion
 
     const getTasksByColumn = (
@@ -192,37 +175,12 @@ export const Board = () => {
             favDialog.close();
         }
     };
-    const DeleteTaskSuccess = (
-        taskId: string,
-        currentTask: TaskInterface | null
-    ) => {
-        console.log("Deleted Task ID: ", taskId);
-        console.log("currentTask?.id", currentTask?.id);
 
-        if (taskId === currentTask?.id) {
-            const favDialog = document.getElementById(
-                "favDialog"
-            ) as HTMLDialogElement;
-            favDialog.close();
-        }
-        dispatch(deleteTask(taskId));
-    };
-
-    /*
     const DeleteTaskSuccess = (taskId: string) => {
-        console.log("Deleted Task ID: ", taskId);
-        console.log("currentTask?.id", currentTask?.id);
-        console.log("CcurrentTask?.id", CcurrentTask?.id);
-        // tasksService.deleteTask(boardId, taskId);
-        if (taskId === currentTask?.id) {
-            const favDialog = document.getElementById(
-                "favDialog"
-            ) as HTMLDialogElement;
-            favDialog.close();
-        }
         dispatch(deleteTask(taskId));
+        dispatch(setDeletedTaskID(taskId));
     };
-*/
+
     const handleCreateTask = (columnId: string, title: string) => {
         const taskInput: TaskInputInterface = {
             title,
@@ -244,7 +202,6 @@ export const Board = () => {
             .getBoard(boardId)
             .then((board) => {
                 console.log("board:", board);
-                // boardService.set_Board(board);
                 dispatch(setBoard(board));
             })
             .catch((error) => {
@@ -271,22 +228,26 @@ export const Board = () => {
     }
     useEffect(() => {
         if (currentTask) {
-            console.log("useEffect");
             const taskSelect = document.getElementById(
                 "task_select"
             ) as HTMLSelectElement;
             taskSelect.value = currentTask!.columnId;
             dispatch(setCurrentTask(currentTask));
-            setCCurrentTask(currentTask);
             console.log("useEffect_currentTask ID :", currentTask?.id);
+            console.log("deletedTaskID :", deletedTaskID);
         }
-    }, [currentTask, tasks]);
+        if (currentTask?.id === deletedTaskID) {
+            const favDialog = document.getElementById(
+                "favDialog"
+            ) as HTMLDialogElement;
+            favDialog.close();
+        }
+    }, [currentTask, deletedTaskID]);
 
     useEffect(() => {
         socketService.emit(SocketEventsEnum.boardsJoin, { boardId });
         fetchData();
         socketService.listen(
-            // SocketEventsEnum.boardsUpdateSuccess,
             SocketEventsEnum.boardsUpdateSuccess,
             boardsUpdateSuccess
         );
@@ -321,17 +282,10 @@ export const Board = () => {
             SocketEventsEnum.tasksUpdateSuccess,
             taskUpdateSuccess
         );
-        /*
+
         socketService.listen(
             SocketEventsEnum.tasksDeleteSuccess,
             DeleteTaskSuccess
-        );
-        */
-        socketService.listen(
-            SocketEventsEnum.tasksDeleteSuccess,
-            (data: any) => {
-                DeleteTaskSuccess(data, currentTask);
-            }
         );
 
         return () => {
@@ -339,12 +293,6 @@ export const Board = () => {
             console.log("board_id", boardId);
             boardService.leaveBoard(boardId);
             dispatch(setBoard(null));
-            /*
-            socketService.socketOff(
-                "boards:updateSuccess",
-                boardsUpdateSuccess
-            );
-            */
             socketService.socketRemoveAllListeners();
         };
     }, []);
@@ -369,7 +317,6 @@ export const Board = () => {
                             onClick={() => navigate("/boards")}
                         />
                     </div>
-                    <output>{currentTask?.id}</output>
 
                     <div className={classes.columns}>
                         {columns &&
@@ -438,8 +385,7 @@ export const Board = () => {
             <dialog
                 className={modalCls.dialog}
                 id="favDialog"
-                onClose={handleDialogClose}
-                // style={dialogStyle}
+                // onClose={handleDialogClose}
             >
                 <div className={modalCls.flex_container}>
                     {/* <p>{currentTask?.title}</p> */}
@@ -470,7 +416,7 @@ export const Board = () => {
                     </select>
 
                     <p className={modalCls.des_label}>Description</p>
-                    <p className={modalCls.task_id}>{currentTask?.id}</p>
+                    <p className={modalCls.task_id}>{deletedTaskID}</p>
                     <div className={modalCls.des_container}>
                         <InlineFormComponent
                             defaultText={currentTask?.description}
