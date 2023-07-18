@@ -32,6 +32,9 @@ export const updateTask = async (
     });
 };
 
-export const deleteTask = (boardId: string, taskId: string) => {
+export const deleteTask = (
+    boardId: string | undefined,
+    taskId: string | undefined
+) => {
     socketService.emit(SocketEventsEnum.tasksDelete, { boardId, taskId });
 };
