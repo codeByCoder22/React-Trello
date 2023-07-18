@@ -20,6 +20,7 @@ import {
     deleteColumn,
     setTasks,
     createTask,
+    deleteTask,
 } from "../boardSlice";
 import { useSelector, useDispatch } from "react-redux";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
@@ -179,6 +180,9 @@ export const Board = () => {
             columnService.deleteColumn(boardId, columnId);
         }
     };
+    const DeleteTaskSuccess = (taskId: string) => {
+        dispatch(deleteTask(taskId));
+    };
 
     const handleCreateTask = (columnId: string, title: string) => {
         const taskInput: TaskInputInterface = {
@@ -267,6 +271,10 @@ export const Board = () => {
         socketService.listen(
             SocketEventsEnum.tasksUpdateSuccess,
             taskUpdateSuccess
+        );
+        socketService.listen(
+            SocketEventsEnum.tasksDeleteSuccess,
+            DeleteTaskSuccess
         );
 
         return () => {
