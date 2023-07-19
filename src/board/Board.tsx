@@ -31,6 +31,7 @@ import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
 import modalCls from "./TaskDialog.module.css";
+import flexCls from "./TaskDialogFlex.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
 // icons :css.gg
@@ -114,6 +115,7 @@ export const Board = () => {
     };
 
     const handleUpdateTaskDescription = (Description: string) => {
+        console.log("handleUpdateTaskDescription:", Description);
         tasksService.updateTask(boardId, currentTask!.id, {
             description: Description,
         });
@@ -383,48 +385,56 @@ export const Board = () => {
             )}
 
             <dialog
-                className={modalCls.dialog}
+                className={flexCls.dialog}
                 id="favDialog"
                 // onClose={handleDialogClose}
             >
-                <div className={modalCls.flex_container}>
-                    {/* <p>{currentTask?.title}</p> */}
-                    <InlineFormComponent
-                        defaultText={currentTask?.title}
-                        title={currentTask?.title}
-                        handleSubmit={handleUpdateTaskName}
-                    />
-                    <CgTrash
-                        className={modalCls.icon}
-                        onClick={() => handleDeleteTask(currentTask?.id)}
-                    />
-
-                    <CgClose
-                        className={`${modalCls.up_right} ${modalCls.icon}`}
-                        onClick={handleCloseModal}
-                    />
-                    <select
-                        onChange={handleOptionChange}
-                        id="task_select"
-                        className={modalCls.option}
-                    >
-                        {columns?.map((column) => (
-                            <option value={column.id} key={column.id}>
-                                {column.title}
-                            </option>
-                        ))}
-                    </select>
-
-                    <p className={modalCls.des_label}>Description</p>
-                    <p className={modalCls.task_id}>{deletedTaskID}</p>
-                    <div className={modalCls.des_container}>
+                <div className={flexCls.flex_container}>
+                    <div className={flexCls.first_row}>
                         <InlineFormComponent
-                            defaultText={currentTask?.description}
-                            title={currentTask?.description}
-                            handleSubmit={handleUpdateTaskDescription}
+                            defaultText={currentTask?.title}
+                            title={currentTask?.title}
+                            handleSubmit={handleUpdateTaskName}
+                        />
+                        <CgTrash
+                            className={flexCls.icon}
+                            onClick={() => handleDeleteTask(currentTask?.id)}
+                        />
+
+                        <CgClose
+                            className={`${modalCls.up_right} ${modalCls.icon}`}
+                            onClick={handleCloseModal}
                         />
                     </div>
-                    <div>
+                    <div className={flexCls.second_row}>
+                        <p className={modalCls.des_label}>Description:</p>
+                        <select onChange={handleOptionChange} id="task_select">
+                            {columns?.map((column) => (
+                                <option value={column.id} key={column.id}>
+                                    {column.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className={flexCls.third_row}>
+                        <div className={modalCls.des_container}>
+                            <InlineFormComponent
+                                defaultText={
+                                    currentTask?.description ||
+                                    "Add more detailed description"
+                                }
+                                title={currentTask?.description}
+                                inputType="textarea"
+                                hasButton
+                                buttonText="Save"
+                                handleSubmit={handleUpdateTaskDescription}
+                            />
+                        </div>
+                        <p className={modalCls.task_id}>{currentTask?.id}</p>
+                    </div>
+
+                    {/* <div>
                         <button value="cancel" formMethod="dialog">
                             Cancel
                         </button>
@@ -435,7 +445,7 @@ export const Board = () => {
                         >
                             Confirm
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </dialog>
         </>

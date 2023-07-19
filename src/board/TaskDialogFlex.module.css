@@ -1,0 +1,23 @@
+.dialog {
+    width: 400px;
+    height: 260px;
+    border: none;
+    background-color: #9f90ef;
+    border-radius: 5px;
+}
+.flex_container {
+    /* display: block; */
+}
+.first_row {
+    display: flex;
+    justify-content: space-between;
+}
+.second_row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+.third_row {
+    display: flex;
+    justify-content: space-between;
+}
