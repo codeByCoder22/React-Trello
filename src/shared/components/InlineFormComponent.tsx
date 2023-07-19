@@ -49,6 +49,11 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
         }
     };
 
+    const textareaStyle = {
+        maxHeight: "120px",
+        maxWidth: "180px",
+    };
+
     return (
         <div
             className={`inline-form-container ${
@@ -76,6 +81,7 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                     )}
                     {inputType === "textarea" && (
                         <textarea
+                            style={textareaStyle}
                             value={formValue}
                             onChange={(event) =>
                                 setFormValue(event.target.value)
@@ -87,15 +93,16 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
                             }
                         ></textarea>
                     )}
-                    {hasButton && (
+                    {/* {hasButton && (
                         <button
                             type="submit"
                             disabled={!formValue}
                             className="inline-form-button"
+                            onSubmit={onSubmit}
                         >
                             {buttonText}
                         </button>
-                    )}
+                    )} */}
                 </form>
             )}
         </div>
