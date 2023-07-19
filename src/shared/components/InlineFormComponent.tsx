@@ -24,6 +24,26 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
     const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
     useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                inputRef.current &&
+                !inputRef.current.contains(event.target as Node)
+            ) {
+                setIsEditing(false);
+                setFormValue("");
+            }
+        };
+
+        if (isEditing) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isEditing]);
+
+    useEffect(() => {
         if (isEditing && inputRef.current) {
             inputRef.current.focus();
         }
@@ -52,6 +72,7 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
     const textareaStyle = {
         maxHeight: "120px",
         maxWidth: "180px",
+        fontSize: "16px",
     };
 
     return (

@@ -4,6 +4,7 @@
     border: none;
     background-color: #9f90ef;
     border-radius: 5px;
+    font-size: 1.2em;
 }
 .flex_container {
     /* display: block; */
@@ -20,4 +21,17 @@
 .third_row {
     display: flex;
     justify-content: space-between;
+}
+.des_label {
+    color: #fff;
+}
+.icon_trash {
+    margin-left: -10em;
+    margin-top: 3px;
+}
+.icon {
+    cursor: pointer;
+}
+.option {
+    font-size: 1.1em;
 }

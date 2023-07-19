@@ -397,18 +397,22 @@ export const Board = () => {
                             handleSubmit={handleUpdateTaskName}
                         />
                         <CgTrash
-                            className={flexCls.icon}
+                            className={`${flexCls.icon_trash} ${flexCls.icon}`}
                             onClick={() => handleDeleteTask(currentTask?.id)}
                         />
 
                         <CgClose
-                            className={`${modalCls.up_right} ${modalCls.icon}`}
+                            className={flexCls.icon}
                             onClick={handleCloseModal}
                         />
                     </div>
                     <div className={flexCls.second_row}>
-                        <p className={modalCls.des_label}>Description:</p>
-                        <select onChange={handleOptionChange} id="task_select">
+                        <p className={flexCls.des_label}>Description:</p>
+                        <select
+                            onChange={handleOptionChange}
+                            id="task_select"
+                            className={flexCls.option}
+                        >
                             {columns?.map((column) => (
                                 <option value={column.id} key={column.id}>
                                     {column.title}
@@ -418,7 +422,7 @@ export const Board = () => {
                     </div>
 
                     <div className={flexCls.third_row}>
-                        <div className={modalCls.des_container}>
+                        <div className={flexCls.des_container}>
                             <InlineFormComponent
                                 defaultText={
                                     currentTask?.description ||
@@ -431,7 +435,7 @@ export const Board = () => {
                                 handleSubmit={handleUpdateTaskDescription}
                             />
                         </div>
-                        <p className={modalCls.task_id}>{currentTask?.id}</p>
+                        {/* <p className={modalCls.task_id}>{currentTask?.id}</p> */}
                     </div>
 
                     {/* <div>
