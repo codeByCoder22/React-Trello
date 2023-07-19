@@ -72,7 +72,7 @@ const InlineFormComponent: React.FC<InlineFormProps> = ({
     const textareaStyle = {
         maxHeight: "120px",
         maxWidth: "180px",
-        fontSize: "16px",
+        // fontSize: "16px",
     };
 
     return (
