@@ -3,7 +3,7 @@ import { CurrentUserInterface } from "../../auth/types/currentUser.interface";
 
 type listenFuncType = (data: any) => void;
 
-export const socket = io("http://codebycoder.com:4001", {
+export const socket = io("http://localhost:4001", {
     autoConnect: false,
     auth: {
         token: window.localStorage.getItem("token"),
