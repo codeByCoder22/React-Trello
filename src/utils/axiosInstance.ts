@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "http://codebycoder.com/api", // Set your API base URL
+    baseURL: "http://localhost:4001/api", // Set your API base URL
     headers: {
         // Authorization:
         Authorization: localStorage.getItem("token") || "",
