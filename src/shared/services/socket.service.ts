@@ -2,8 +2,9 @@ import { io, Socket } from "socket.io-client";
 import { CurrentUserInterface } from "../../auth/types/currentUser.interface";
 
 type listenFuncType = (data: any) => void;
+const socket_IO_Url = process.env.REACT_APP_SOCKET_URL as string;
 
-export const socket = io("http://localhost:4001", {
+export const socket = io(socket_IO_Url, {
     autoConnect: false,
     auth: {
         token: window.localStorage.getItem("token"),
