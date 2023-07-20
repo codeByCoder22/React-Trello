@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as socketService from "../shared/services/socket.service";
 import { SocketEventsEnum } from "../shared/types/socketEvents.enum";
 import * as boardService from "../shared/services/board.service";
@@ -36,7 +36,7 @@ import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
 // icons :css.gg
 import { CgClose, CgCornerUpLeft, CgTrash } from "react-icons/cg";
-
+import ModalDialog from "./CustomDialog";
 export const Board = () => {
     const { boardId } = useParams();
     const dispatch = useDispatch();
@@ -46,6 +46,22 @@ export const Board = () => {
     const currentTask = useSelector(selectCurrentTask);
     const deletedTaskID = useSelector(selectDeletedTaskID);
     const navigate = useNavigate();
+
+    //compoenent Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+    const handleShowModalComponent = (currentTask: TaskInterface) => {
+        dispatch(setCurrentTask(currentTask));
+        setIsModalOpen(true);
+    };
+    /*************** */
 
     // #region Task Dialog Functions
 
@@ -354,7 +370,7 @@ export const Board = () => {
                                                 className={classes.task}
                                                 key={task.id}
                                                 onClick={() =>
-                                                    handleShowDialog(task)
+                                                    handleShowModalComponent
                                                 }
                                             >
                                                 {task.title}
@@ -452,6 +468,28 @@ export const Board = () => {
                     </div> */}
                 </div>
             </dialog>
+
+            {isModalOpen && (
+                <ModalDialog onClose={closeModal}>
+                    <div className={flexCls.first_row}>
+                        <InlineFormComponent
+                            defaultText={currentTask?.title}
+                            title={currentTask?.title}
+                            handleSubmit={handleUpdateTaskName}
+                        />
+                        <CgTrash
+                            className={`${flexCls.icon_trash} ${flexCls.icon}`}
+                            onClick={() => handleDeleteTask(currentTask?.id)}
+                        />
+
+                        <CgClose
+                            className={flexCls.icon}
+                            onClick={handleCloseModal}
+                        />
+                    </div>
+                    <h1>Modal Dialog</h1>
+                </ModalDialog>
+            )}
         </>
     );
 };
