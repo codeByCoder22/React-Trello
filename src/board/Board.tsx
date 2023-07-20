@@ -48,7 +48,7 @@ export const Board = () => {
     const navigate = useNavigate();
 
     //compoenent Modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -60,6 +60,7 @@ export const Board = () => {
     const handleShowModalComponent = (currentTask: TaskInterface) => {
         dispatch(setCurrentTask(currentTask));
         setIsModalOpen(true);
+        console.log("handleShowModalComponent:", currentTask);
     };
     /*************** */
 
@@ -246,10 +247,10 @@ export const Board = () => {
     }
     useEffect(() => {
         if (currentTask) {
-            const taskSelect = document.getElementById(
-                "task_select"
-            ) as HTMLSelectElement;
-            taskSelect.value = currentTask!.columnId;
+            // const taskSelect = document.getElementById(
+            //     "task_select"
+            // ) as HTMLSelectElement;
+            // taskSelect.value = currentTask!.columnId;
             dispatch(setCurrentTask(currentTask));
             console.log("useEffect_currentTask ID :", currentTask?.id);
             console.log("deletedTaskID :", deletedTaskID);
@@ -370,11 +371,12 @@ export const Board = () => {
                                                 className={classes.task}
                                                 key={task.id}
                                                 onClick={() =>
-                                                    handleShowModalComponent
+                                                    handleShowModalComponent(
+                                                        task
+                                                    )
                                                 }
                                             >
                                                 {task.title}
-                                                {` _ ${task.id.slice(-5)}`}
                                             </div>
                                         ))}
 
@@ -400,93 +402,8 @@ export const Board = () => {
                 </div>
             )}
 
-            <dialog
-                className={flexCls.dialog}
-                id="favDialog"
-                // onClose={handleDialogClose}
-            >
-                <div className={flexCls.flex_container}>
-                    <div className={flexCls.first_row}>
-                        <InlineFormComponent
-                            defaultText={currentTask?.title}
-                            title={currentTask?.title}
-                            handleSubmit={handleUpdateTaskName}
-                        />
-                        <CgTrash
-                            className={`${flexCls.icon_trash} ${flexCls.icon}`}
-                            onClick={() => handleDeleteTask(currentTask?.id)}
-                        />
-
-                        <CgClose
-                            className={flexCls.icon}
-                            onClick={handleCloseModal}
-                        />
-                    </div>
-                    <div className={flexCls.second_row}>
-                        <p className={flexCls.des_label}>Description:</p>
-                        <select
-                            onChange={handleOptionChange}
-                            id="task_select"
-                            className={flexCls.option}
-                        >
-                            {columns?.map((column) => (
-                                <option value={column.id} key={column.id}>
-                                    {column.title}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className={flexCls.third_row}>
-                        <div className={flexCls.des_container}>
-                            <InlineFormComponent
-                                defaultText={
-                                    currentTask?.description ||
-                                    "Add more detailed description"
-                                }
-                                title={currentTask?.description}
-                                inputType="textarea"
-                                hasButton
-                                buttonText="Save"
-                                handleSubmit={handleUpdateTaskDescription}
-                            />
-                        </div>
-                        {/* <p className={modalCls.task_id}>{currentTask?.id}</p> */}
-                    </div>
-
-                    {/* <div>
-                        <button value="cancel" formMethod="dialog">
-                            Cancel
-                        </button>
-                        <button
-                            id="confirmBtn"
-                            onClick={handleConfirmClick}
-                            value="default"
-                        >
-                            Confirm
-                        </button>
-                    </div> */}
-                </div>
-            </dialog>
-
             {isModalOpen && (
                 <ModalDialog onClose={closeModal}>
-                    <div className={flexCls.first_row}>
-                        <InlineFormComponent
-                            defaultText={currentTask?.title}
-                            title={currentTask?.title}
-                            handleSubmit={handleUpdateTaskName}
-                        />
-                        <CgTrash
-                            className={`${flexCls.icon_trash} ${flexCls.icon}`}
-                            onClick={() => handleDeleteTask(currentTask?.id)}
-                        />
-
-                        <CgClose
-                            className={flexCls.icon}
-                            onClick={handleCloseModal}
-                        />
-                    </div>
                     <h1>Modal Dialog</h1>
                 </ModalDialog>
             )}

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDom from "react-dom";
 
 type ModalDialogProps = {
     // isOpen: boolean;
@@ -26,6 +26,9 @@ const contentStyles: React.CSSProperties = {
     padding: "20px",
     borderRadius: "4px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+    backgroundColor: "#9f90ef",
+    width: "400px",
+    height: "350px",
 };
 
 const ModalDialog: React.FC<PropsWithChildren<ModalDialogProps>> = ({
@@ -34,7 +37,7 @@ const ModalDialog: React.FC<PropsWithChildren<ModalDialogProps>> = ({
     children,
 }) => {
     // if (!isOpen) return null;
-    return ReactDOM.createPortal(
+    return ReactDom.createPortal(
         <>
             <div style={modalStyles}>
                 <div style={contentStyles}>
