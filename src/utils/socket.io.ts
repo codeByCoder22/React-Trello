@@ -2,9 +2,11 @@ import { io } from "socket.io-client";
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL =
-    process.env.NODE_ENV === "production" ? undefined : "http://localhost:5000";
+    process.env.NODE_ENV === "production"
+        ? undefined
+        : "http://codebycoder.com:4001";
 
-export const socket = io("http://localhost:4001", {
+export const socket = io("http://codebycoder.com:4001", {
     autoConnect: false,
     auth: {
         token: localStorage.getItem("token"),
