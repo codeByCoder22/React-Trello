@@ -47,7 +47,7 @@ export const AuthProvider: FC<
                 setIsLogged(true);
                 navigate("/boards");
                 socketService.setupSocketConnection(currentUser);
-                console.log("response.data", currentUser);
+                console.log("auth_useEffect_response.data", currentUser);
             })
             .catch((error) => {
                 console.error("Error fetching user:", error);

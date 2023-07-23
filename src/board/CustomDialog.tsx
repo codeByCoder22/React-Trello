@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useState } from "react";
 import ReactDom from "react-dom";
+// import flexCls from "./TaskDialogFlex.module.css";
 
 type ModalDialogProps = {
     // isOpen: boolean;
@@ -28,7 +29,7 @@ const contentStyles: React.CSSProperties = {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
     backgroundColor: "#9f90ef",
     width: "400px",
-    height: "350px",
+    height: "260px",
 };
 
 const ModalDialog: React.FC<PropsWithChildren<ModalDialogProps>> = ({
