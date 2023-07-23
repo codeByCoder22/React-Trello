@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as socketService from "../shared/services/socket.service";
 import { SocketEventsEnum } from "../shared/types/socketEvents.enum";
@@ -30,7 +30,7 @@ import { BoardInterface } from "../shared/types/board.interface";
 import { ColumnInterface } from "../shared/types/column.interface";
 import { TaskInterface } from "../shared/types/task.interface";
 import classes from "./Board.module.css";
-import modalCls from "./TaskDialog.module.css";
+// import modalCls from "./TaskDialog.module.css";
 import flexCls from "./TaskDialogFlex.module.css";
 import { ColumnInputInterface } from "../shared/types/columnInput.interface";
 import { TaskInputInterface } from "../shared/types/taskInput.interface";
@@ -46,6 +46,7 @@ export const Board = () => {
     const currentTask = useSelector(selectCurrentTask);
     const deletedTaskID = useSelector(selectDeletedTaskID);
     const navigate = useNavigate();
+    const optionRef = useRef<HTMLSelectElement>(null);
 
     //compoenent Modal
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -66,22 +67,22 @@ export const Board = () => {
 
     // #region Task Dialog Functions
 
-    const handleShowDialog = (currentTask: TaskInterface) => {
-        dispatch(setCurrentTask(currentTask));
-        const favDialog = document.getElementById(
-            "favDialog"
-        ) as HTMLDialogElement;
-        favDialog.showModal();
-    };
+    // const handleShowDialog = (currentTask: TaskInterface) => {
+    //     dispatch(setCurrentTask(currentTask));
+    //     const favDialog = document.getElementById(
+    //         "favDialog"
+    //     ) as HTMLDialogElement;
+    //     favDialog.showModal();
+    // };
 
-    const handleSelectChange = (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        const confirmBtn = document.getElementById(
-            "confirmBtn"
-        ) as HTMLButtonElement;
-        confirmBtn.value = event.target.value;
-    };
+    // const handleSelectChange = (
+    //     event: React.ChangeEvent<HTMLSelectElement>
+    // ) => {
+    //     const confirmBtn = document.getElementById(
+    //         "confirmBtn"
+    //     ) as HTMLButtonElement;
+    //     confirmBtn.value = event.target.value;
+    // };
 
     const handleOptionChange = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -94,14 +95,14 @@ export const Board = () => {
         });
     };
 
-    const handleConfirmClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        const favDialog = document.getElementById(
-            "favDialog"
-        ) as HTMLDialogElement;
-        const selectEl = favDialog.querySelector("select") as HTMLSelectElement;
-        favDialog.close(selectEl.value);
-    };
+    // const handleConfirmClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     event.preventDefault();
+    //     const favDialog = document.getElementById(
+    //         "favDialog"
+    //     ) as HTMLDialogElement;
+    //     const selectEl = favDialog.querySelector("select") as HTMLSelectElement;
+    //     favDialog.close(selectEl.value);
+    // };
     // #endregion
 
     const getTasksByColumn = (
@@ -188,10 +189,7 @@ export const Board = () => {
     const handleDeleteTask = (taskId: string | undefined) => {
         if (window.confirm("Are you sure you want to delete this task?")) {
             tasksService.deleteTask(boardId, taskId);
-            const favDialog = document.getElementById(
-                "favDialog"
-            ) as HTMLDialogElement;
-            favDialog.close();
+            setIsModalOpen(false);
         }
     };
 
@@ -209,12 +207,9 @@ export const Board = () => {
         tasksService.createTask(taskInput);
     };
 
-    const handleCloseModal = () => {
-        const favDialog = document.getElementById(
-            "favDialog"
-        ) as HTMLDialogElement;
-        favDialog.close();
-    };
+    // const handleCloseModal = () => {
+    //     setIsModalOpen(false);
+    // };
 
     function fetchData(): void {
         boardsService
@@ -251,15 +246,16 @@ export const Board = () => {
             //     "task_select"
             // ) as HTMLSelectElement;
             // taskSelect.value = currentTask!.columnId;
+            if (optionRef.current) {
+                optionRef.current.value = currentTask!.columnId;
+            }
+            /**************** */
             dispatch(setCurrentTask(currentTask));
             console.log("useEffect_currentTask ID :", currentTask?.id);
             console.log("deletedTaskID :", deletedTaskID);
         }
         if (currentTask?.id === deletedTaskID) {
-            const favDialog = document.getElementById(
-                "favDialog"
-            ) as HTMLDialogElement;
-            favDialog.close();
+            setIsModalOpen(false);
         }
     }, [currentTask, deletedTaskID]);
 
@@ -404,7 +400,59 @@ export const Board = () => {
 
             {isModalOpen && (
                 <ModalDialog onClose={closeModal}>
-                    <h1>Modal Dialog</h1>
+                    <div className={flexCls.flex_container}>
+                        <div className={flexCls.first_row}>
+                            <InlineFormComponent
+                                defaultText={currentTask?.title}
+                                title={currentTask?.title}
+                                handleSubmit={handleUpdateTaskName}
+                            />
+                            <CgTrash
+                                className={`${flexCls.icon_trash} ${flexCls.icon}`}
+                                onClick={() =>
+                                    handleDeleteTask(currentTask?.id)
+                                }
+                            />
+
+                            <CgClose
+                                className={flexCls.icon}
+                                // onClick={handleCloseModal}
+                                onClick={() => setIsModalOpen(false)}
+                            />
+                        </div>
+                        <div className={flexCls.second_row}>
+                            <p className={flexCls.des_label}>Description:</p>
+                            <select
+                                onChange={handleOptionChange}
+                                id="task_select"
+                                className={flexCls.option}
+                                ref={optionRef}
+                            >
+                                {columns?.map((column) => (
+                                    <option value={column.id} key={column.id}>
+                                        {column.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className={flexCls.third_row}>
+                            <div className={flexCls.des_container}>
+                                <InlineFormComponent
+                                    defaultText={
+                                        currentTask?.description ||
+                                        "Add more detailed description"
+                                    }
+                                    title={currentTask?.description}
+                                    inputType="textarea"
+                                    hasButton
+                                    buttonText="Save"
+                                    handleSubmit={handleUpdateTaskDescription}
+                                />
+                            </div>
+                            {/* <p className={modalCls.task_id}>{currentTask?.id}</p> */}
+                        </div>
+                    </div>
                 </ModalDialog>
             )}
         </>
