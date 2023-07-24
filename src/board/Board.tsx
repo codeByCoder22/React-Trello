@@ -166,6 +166,7 @@ export const Board = () => {
     };
 
     const taskUpdateSuccess = (task: TaskInterface) => {
+        console.log("taskUpdateSuccess", task);
         dispatch(updateTask(task));
     };
 

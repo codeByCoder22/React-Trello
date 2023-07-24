@@ -36,7 +36,7 @@ export const AuthProvider: FC<
         null
     );
     const [isLogged, setIsLogged] = useState<boolean>(false);
-    const [fetchingUser, setFetchingUser] = useState<boolean>(true);
+    // const [fetchingUser, setFetchingUser] = useState<boolean>(true);
 
     const navigate = useNavigate();
 
@@ -62,18 +62,19 @@ export const AuthProvider: FC<
                 })
                 .finally(() => {
                     console.log("AuthContext_finally");
-                    setFetchingUser(false); // Set fetchingUser to false regardless of success or failure
+                    // setFetchingUser(false); // Set fetchingUser to false regardless of success or failure
                 });
         };
         // Check if currentUser is null (not fetched yet) and fetchingUser is true (fetch request not already made)
-        if (!currentUser && !isLogged && fetchingUser) {
-            fetchCurrentUser();
-        }
+        // if (!currentUser && !isLogged && fetchingUser) {
+        //     fetchCurrentUser();
+        // }
 
         return () => {
             socketService.disconnect();
         };
-    }, [currentUser, isLogged, fetchingUser]);
+    }, []);
+    // }, [currentUser, isLogged, fetchingUser]);
 
     const authContextValue: AuthContextType = {
         currentUser,
