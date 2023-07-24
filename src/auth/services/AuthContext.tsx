@@ -66,14 +66,14 @@ export const AuthProvider: FC<
                 });
         };
         // Check if currentUser is null (not fetched yet) and fetchingUser is true (fetch request not already made)
-        if (!currentUser && fetchingUser) {
+        if (!currentUser && !isLogged && fetchingUser) {
             fetchCurrentUser();
         }
 
         return () => {
             socketService.disconnect();
         };
-    }, [currentUser, fetchingUser]);
+    }, [currentUser, isLogged, fetchingUser]);
 
     const authContextValue: AuthContextType = {
         currentUser,

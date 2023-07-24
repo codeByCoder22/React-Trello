@@ -35,14 +35,14 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
+                    {/* <Route
                         path="/boards/:boardId/tasks/:taskId"
                         element={
                             <ProtectedRoute>
                                 <TaskModal />
                             </ProtectedRoute>
                         }
-                    />
+                    /> */}
                 </Routes>
             </main>
         </>

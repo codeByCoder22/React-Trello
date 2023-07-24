@@ -51,9 +51,9 @@ export const Board = () => {
     //compoenent Modal
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+    // const openModal = () => {
+    //     setIsModalOpen(true);
+    // };
 
     const closeModal = () => {
         setIsModalOpen(false);
