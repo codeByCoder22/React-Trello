@@ -37,6 +37,8 @@ import { TaskInputInterface } from "../shared/types/taskInput.interface";
 // icons :css.gg
 import { CgClose, CgCornerUpLeft, CgTrash } from "react-icons/cg";
 import ModalDialog from "./CustomDialog";
+import { TaskEditor } from "../components/TaskEditor";
+
 export const Board = () => {
     const { boardId } = useParams();
     const dispatch = useDispatch();
@@ -398,8 +400,8 @@ export const Board = () => {
                     </div>
                 </div>
             )}
-
-            {isModalOpen && (
+            {isModalOpen && <TaskEditor closeEditor={setIsModalOpen} />}
+            {/* {isModalOpen && (
                 <ModalDialog onClose={closeModal}>
                     <div className={flexCls.flex_container}>
                         <div className={flexCls.first_row}>
@@ -451,11 +453,10 @@ export const Board = () => {
                                     handleSubmit={handleUpdateTaskDescription}
                                 />
                             </div>
-                            {/* <p className={modalCls.task_id}>{currentTask?.id}</p> */}
                         </div>
                     </div>
                 </ModalDialog>
-            )}
+            )} */}
         </>
     );
 };
