@@ -39,3 +39,8 @@ serve -s build
 npm install @reduxjs/toolkit
 
 [react-icons:](https://react-icons.github.io/react-icons/icons?name=cg)
+
+[Nginx config for Socket.IO](https://socket.io/zh-CN/docs/v4/reverse-proxy/#nginx)(https://socket.io/zh-CN/docs/v4/troubleshooting-connection-issues/)
+(https://socket.io/zh-CN/docs/v4/handling-cors/)
+
+[Ngins config](https://gist.github.com/soheilhy/8b94347ff8336d971ad0)

@@ -12,6 +12,10 @@ export const socket = io(socket_IO_Url, {
     },
 });
 
+socket.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`);
+});
+
 export const setupSocketConnection = (currentUser: CurrentUserInterface) => {
     socket.connect();
 };
