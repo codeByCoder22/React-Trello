@@ -41,18 +41,11 @@ export const Boards = () => {
         <div className={classes.boards}>
             <h1>My Boards</h1>
             <div className={classes.flex_}>
-                <div className={classes.inlineForm}>
-                    <InlineFormComponent
-                        defaultText="Create new board"
-                        handleSubmit={createBoard}
-                    />
-                </div>
-
                 {boards.map((board) => (
                     <Link
                         to={`/boards/${board.id}`}
                         key={board.id}
-                        className="board-tile"
+                        className={classes.board_tile}
                     >
                         <div className="board-tile-details-name">
                             {board.title}
@@ -62,6 +55,13 @@ export const Boards = () => {
 
                 {isLoading && <p>Loading...</p>}
                 {error && <p>{error}</p>}
+
+                <div className={classes.inlineForm}>
+                    <InlineFormComponent
+                        defaultText="Create new board"
+                        handleSubmit={createBoard}
+                    />
+                </div>
             </div>
         </div>
     );

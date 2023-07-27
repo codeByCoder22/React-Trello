@@ -21,24 +21,3 @@
     align-items: flex-start;
     gap: 1rem;
 }
-.column {
-    border-radius: 5px;
-    padding: 1rem;
-    background: #e1b202;
-    color: black;
-}
-.column_title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* background-color: #a0701f; */
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.task {
-    border-radius: 5px;
-    padding: 0.5rem;
-    background-color: #94c748;
-    margin: 0.5rem 0;
-    cursor: pointer;
-}
