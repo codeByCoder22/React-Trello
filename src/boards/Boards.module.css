@@ -21,14 +21,27 @@ h1 {
     flex-wrap: wrap;
 }
 .flex_ > .inlineForm {
+    display: inline-block;
+    border: 1px solid #0cf;
+
     border-radius: 5px;
+    height: 100%;
     padding: 1rem;
-    background: gray;
+    /* background: gray; */
     color: white;
+    margin-top: 0.5rem;
+}
+.board_tile {
+    border: 1px solid #0cf;
+    border-radius: 5px;
+    padding: 0.5rem;
+    /* background-color: #94c748; */
+    margin: 0.5rem 0;
+    cursor: pointer;
 }
 .flex_ > a {
     border-radius: 5px;
     padding: 1rem;
-    background: #94c748;
+    /* background: #94c748; */
     color: white;
 }

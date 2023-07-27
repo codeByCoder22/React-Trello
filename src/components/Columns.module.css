@@ -1,0 +1,21 @@
+.column {
+    display: inline-block;
+    text-align: left;
+    /* margin: 0 auto; */
+    /* width: 300px; */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.column_title {
+    /* background-color: #ccc; */
+    display: flex;
+}
+.task {
+    border: 1px solid #0cf;
+    border-radius: 5px;
+    padding: 0.5rem;
+    /* background-color: #94c748; */
+    margin: 0.5rem 0;
+    cursor: pointer;
+}

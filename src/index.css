@@ -25,3 +25,9 @@ a {
     text-decoration: none;
     color: #ffffff;
 }
+.inline-form-container {
+    width: 180px;
+    /* border: 1px solid #ffffff;
+    border-radius: 4px;
+    padding-left: 0.5rem; */
+}
