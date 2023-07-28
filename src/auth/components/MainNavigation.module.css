@@ -24,6 +24,8 @@
 }
 .user {
     background-color: #00a4bf;
+    /* border: 1px solid #0cf; */
+
     padding: 3px 4px;
     border-radius: 45%;
 }

@@ -71,8 +71,18 @@
     flex-items: center;
 }
 .trashSvg {
+    cursor: pointer;
+    margin-left: 1rem;
     padding-top: 3px;
 }
 .des_label {
     margin-right: 5rem;
+}
+.option {
+    width: 90px;
+    font-size: 16px;
+    color: white;
+    background: rgba(20, 20, 35, 0.9);
+    border-radius: 5px;
+    cursor: pointer;
 }
