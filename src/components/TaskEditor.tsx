@@ -14,6 +14,7 @@ import * as tasksService from "../shared/services/tasks.service";
 import { useParams } from "react-router-dom";
 
 import { CgClose, CgTrash } from "react-icons/cg";
+import useClickOutside from "../utils/useClickOutside";
 
 interface TaskEditorProps {
     closeEditor: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,9 +27,14 @@ export const TaskEditor: React.FC<TaskEditorProps> = ({ closeEditor }) => {
     const { boardId } = useParams();
     const columns = useSelector(selectColumns);
     const optionRef = useRef<HTMLSelectElement>(null);
+    const editorRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
     const deletedTaskID = useSelector(selectDeletedTaskID);
     const currentTask = useSelector(selectCurrentTask);
+
+    useClickOutside(editorRef, () => {
+        closeEditor(false);
+    });
 
     const handleUpdateTaskName = (taskName: string) => {
         tasksService.updateTask(boardId, currentTask!.id, { title: taskName });
@@ -76,7 +82,7 @@ export const TaskEditor: React.FC<TaskEditorProps> = ({ closeEditor }) => {
     return (
         <>
             <div className={classes.blur}>
-                <div className={classes.taskeditor}>
+                <div className={classes.taskeditor} ref={editorRef}>
                     <div className={classes.taskeditor_header}>
                         <CgClose
                             className={classes.cloSvg}
