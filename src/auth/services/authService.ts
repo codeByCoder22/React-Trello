@@ -27,6 +27,7 @@ export const login = async (
 
 export const setToken = (currentUser: CurrentUserInterface): void => {
     window.localStorage.setItem("token", currentUser.token);
+    // window.localStorage.setItem("username", currentUser.username);
 };
 
 export const logout = (): void => {
