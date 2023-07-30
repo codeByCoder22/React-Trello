@@ -67,7 +67,7 @@ export const AuthProvider: FC<
         };
         // Check if currentUser is null (not fetched yet) and fetchingUser is true (fetch request not already made)
         // if (!currentUser && !isLogged && fetchingUser) {
-        //     fetchCurrentUser();
+        fetchCurrentUser();
         // }
 
         return () => {
