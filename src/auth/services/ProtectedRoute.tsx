@@ -6,8 +6,8 @@ import { useAuthContext } from "./AuthContext";
 export const ProtectedRoute: FC<
     PropsWithChildren<React.HTMLAttributes<HTMLElement>>
 > = ({ children }) => {
-    const { isLogged } = useAuthContext();
-    if (!isLogged) {
+    const { currentUser } = useAuthContext();
+    if (!currentUser) {
         return <Navigate to="/login" />;
         // return <Navigate to="/home" replace state={{ from: location }} />;
     }

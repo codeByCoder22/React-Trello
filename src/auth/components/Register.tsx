@@ -15,8 +15,7 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const { currentUser, setCurrentUser, isLogged, setIsLogged } =
-        useAuthContext();
+    const { currentUser, setCurrentUser } = useAuthContext();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -32,14 +31,12 @@ const Register: React.FC = () => {
             .then((currentUser) => {
                 authService.setToken(currentUser);
                 setCurrentUser(currentUser);
-                setIsLogged(true);
                 setError("");
                 navigate("/boards");
                 socketService.setupSocketConnection(currentUser);
             })
             .catch((error) => {
                 setCurrentUser(null);
-                setIsLogged(false);
                 console.log(error.response);
                 setError(
                     // error.response?.data?.error ||

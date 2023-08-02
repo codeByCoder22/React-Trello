@@ -7,13 +7,11 @@ import * as authService from "../services/authService";
 export const MainNavigation = () => {
     const navigate = useNavigate();
 
-    const { currentUser, setCurrentUser, isLogged, setIsLogged } =
-        useAuthContext();
+    const { currentUser, setCurrentUser } = useAuthContext();
 
     const handleLogout = () => {
         setCurrentUser(null);
-        setIsLogged(false);
-        navigate("/register");
+        navigate("/login");
         authService.logout();
     };
 
@@ -43,7 +41,7 @@ export const MainNavigation = () => {
                                 Boards
                             </NavLink>
                         </li>
-                        {!isLogged && (
+                        {!currentUser && (
                             <li>
                                 <NavLink
                                     to="/register"
@@ -55,7 +53,7 @@ export const MainNavigation = () => {
                                 </NavLink>
                             </li>
                         )}
-                        {!isLogged && (
+                        {!currentUser && (
                             <li>
                                 <NavLink
                                     to="/login"
@@ -67,14 +65,14 @@ export const MainNavigation = () => {
                                 </NavLink>
                             </li>
                         )}
-                        {isLogged && (
+                        {currentUser && (
                             <li>
                                 <span className={classes.user}>
                                     {currentUser?.username}
                                 </span>
                             </li>
                         )}
-                        {isLogged && (
+                        {currentUser && (
                             <li className={classes.logout}>
                                 <span onClick={handleLogout}>Logout</span>
                             </li>

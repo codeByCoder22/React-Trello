@@ -15,8 +15,6 @@ import * as socketService from "../../shared/services/socket.service";
 interface AuthContextType {
     currentUser: CurrentUserInterface | null;
     setCurrentUser: (user: CurrentUserInterface | null) => void;
-    isLogged: boolean;
-    setIsLogged: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,11 +33,10 @@ export const AuthProvider: FC<
     const [currentUser, setCurrentUser] = useState<CurrentUserInterface | null>(
         null
     );
-    const [isLogged, setIsLogged] = useState<boolean>(false);
     // const [fetchingUser, setFetchingUser] = useState<boolean>(true);
 
     const navigate = useNavigate();
-
+    /*
     useEffect(() => {
         const fetchCurrentUser = async () => {
             authService
@@ -47,7 +44,6 @@ export const AuthProvider: FC<
                 .then((currentUser) => {
                     console.log("AuthContext_currentUser", currentUser);
                     setCurrentUser(currentUser);
-                    setIsLogged(true);
                     navigate("/boards");
                     socketService.setupSocketConnection(currentUser);
                     console.log(
@@ -58,7 +54,6 @@ export const AuthProvider: FC<
                 .catch((error) => {
                     console.error("AuthContext_Error fetching user:", error);
                     setCurrentUser(null);
-                    setIsLogged(false);
                 })
                 .finally(() => {
                     console.log("AuthContext_finally");
@@ -66,21 +61,19 @@ export const AuthProvider: FC<
                 });
         };
         // Check if currentUser is null (not fetched yet) and fetchingUser is true (fetch request not already made)
-        // if (!currentUser && !isLogged && fetchingUser) {
-        fetchCurrentUser();
-        // }
+        if (!currentUser) {
+            fetchCurrentUser();
+        }
 
         return () => {
             socketService.disconnect();
         };
-    }, []);
-    // }, [currentUser, isLogged, fetchingUser]);
-
+        // }, []);
+    }, [currentUser]);
+*/
     const authContextValue: AuthContextType = {
         currentUser,
         setCurrentUser,
-        isLogged,
-        setIsLogged,
     };
 
     return (
