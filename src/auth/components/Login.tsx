@@ -6,6 +6,7 @@ import { useAuthContext } from "../services/AuthContext";
 import * as authService from "../services/authService";
 import * as socketService from "../../shared/services/socket.service";
 import classes from "./au.module.css";
+import axios from "../../utils/axios";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login: React.FC = () => {
         };
 
         // await Login(loginRequest);
-        authService
+        /*     authService
             .login(loginRequest)
             .then((currentUser) => {
                 authService.setToken(currentUser);
@@ -33,6 +34,17 @@ const Login: React.FC = () => {
                 // setIsLogged(true);
                 setError("");
                 socketService.setupSocketConnection(currentUser);
+                navigate("/boards");
+            })*/
+        axios
+            .post("/users/login", loginRequest)
+            .then((res) => {
+                console.log(res);
+                authService.setToken(res.data);
+                setCurrentUser(res.data);
+                // setIsLogged(true);
+                setError("");
+                socketService.setupSocketConnection(res.data);
                 navigate("/boards");
             })
             .catch((error) => {
