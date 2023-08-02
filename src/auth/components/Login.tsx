@@ -40,7 +40,7 @@ const Login: React.FC = () => {
             .post("/users/login", loginRequest)
             .then((res) => {
                 console.log(res);
-                authService.setToken(res.data);
+                // authService.setToken(res.data);
                 setCurrentUser(res.data);
                 // setIsLogged(true);
                 setError("");

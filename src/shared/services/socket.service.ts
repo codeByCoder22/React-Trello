@@ -17,6 +17,9 @@ socket.on("connect_error", (err) => {
 });
 
 export const setupSocketConnection = (currentUser: CurrentUserInterface) => {
+    socket.auth = {
+        token: currentUser.token,
+    };
     socket.connect();
 };
 

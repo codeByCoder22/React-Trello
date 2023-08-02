@@ -4,11 +4,14 @@ import { BoardInterface } from "../shared/types/board.interface";
 import InlineFormComponent from "../shared/components/InlineFormComponent";
 import { Link } from "react-router-dom";
 import classes from "./Boards.module.css";
+// import { useAuthContext } from "../../services/AuthContext";
+import { useAuthContext } from "../auth/services/AuthContext";
 
 export const Boards = () => {
     const [boards, setBoards] = useState<BoardInterface[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const { currentUser, setCurrentUser } = useAuthContext();
 
     const createBoard = (title: string) => {
         setIsLoading(true);
@@ -25,8 +28,9 @@ export const Boards = () => {
     };
 
     useEffect(() => {
+        console.log("Boards_tsx_currentUser", currentUser);
         boardsService
-            .getBoards()
+            .getBoards(currentUser?.token)
             .then((boards) => {
                 console.log("response.data", boards);
                 setBoards(boards);
