@@ -1,0 +1,19 @@
+.home {
+    width: 400px;
+    margin: 0 auto;
+}
+.layout {
+    padding: 10px;
+    border: 1px solid #5ff;
+    border-radius: 10px;
+}
+.color {
+    padding: 2px;
+    color: #fff;
+    background-color: #000;
+    border-radius: 5px;
+}
+.link {
+    color: #5ff;
+    text-decoration: none;
+}

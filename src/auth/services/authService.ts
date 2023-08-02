@@ -1,4 +1,5 @@
 import axiosInstance from "../../utils/axiosInstance";
+import useAxiosPrivate from "../../utils/useAxiosPrivate";
 import { CurrentUserInterface } from "../types/currentUser.interface";
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { LoginRequestInterface } from "../types/loginRequest.interface";
@@ -27,7 +28,7 @@ export const login = async (
 
 export const setToken = (currentUser: CurrentUserInterface): void => {
     window.localStorage.setItem("token", currentUser.token);
-    // window.localStorage.setItem("username", currentUser.username);
+    window.localStorage.setItem("username", currentUser.username);
 };
 
 export const logout = (): void => {

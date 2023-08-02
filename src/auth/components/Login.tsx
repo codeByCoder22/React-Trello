@@ -10,19 +10,18 @@ import classes from "./au.module.css";
 const Login: React.FC = () => {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("12@12.com");
+    const [password, setPassword] = useState("12");
     const [error, setError] = useState("");
 
-    const { currentUser, setCurrentUser, isLogged, setIsLogged } =
-        useAuthContext();
+    const { currentUser, setCurrentUser } = useAuthContext();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const loginRequest: LoginRequestInterface = {
-            email,
-            password,
+            email: "12@12.com",
+            password: "12",
         };
 
         // await Login(loginRequest);
@@ -31,14 +30,14 @@ const Login: React.FC = () => {
             .then((currentUser) => {
                 authService.setToken(currentUser);
                 setCurrentUser(currentUser);
-                setIsLogged(true);
+                // setIsLogged(true);
                 setError("");
-                navigate("/boards");
                 socketService.setupSocketConnection(currentUser);
+                navigate("/boards");
             })
             .catch((error) => {
                 setCurrentUser(null);
-                setIsLogged(false);
+                // setIsLogged(false);
                 console.log(error.response);
                 setError(
                     // error.response?.data?.error ||
