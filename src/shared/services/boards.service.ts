@@ -3,7 +3,14 @@ import axiosInstance from "../../utils/axiosInstance";
 import * as socketService from "./socket.service";
 import { SocketEventsEnum } from "../types/socketEvents.enum";
 
-export const getBoards = async (): Promise<BoardInterface[]> => {
+export const getBoards = async (
+    token: string | undefined
+): Promise<BoardInterface[]> => {
+    axiosInstance.interceptors.request.use((config) => {
+        config.headers["Authorization"] = token;
+        return config;
+    });
+
     return axiosInstance
         .get("/boards")
         .then((res) => res.data)
